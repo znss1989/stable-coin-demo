@@ -23,7 +23,6 @@ class App extends React.Component {
           <br />
           <Header as='h1'>Stable Coins Dashboard</Header>
           <br />
-          <Divider horizontal>Fiat Selection</Divider>
           <Divider horizontal>App Dashboard</Divider>
           <Divider horizontal>Connection Status</Divider>
           <ConnectionStatus 
