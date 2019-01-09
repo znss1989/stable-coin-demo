@@ -3,6 +3,7 @@ import { Container, Header, Divider } from 'semantic-ui-react';
 
 import './App.css';
 import ConnectionStatus from './components/ConnectionStatus';
+import connectionService from './service/connectionService';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,10 +22,17 @@ class App extends React.Component {
         <Container>
           <br />
           <Header as='h1'>Stable Coins Dashboard</Header>
-          <Divider horizontal>Connection Status</Divider>
-          <ConnectionStatus />
+          <br />
           <Divider horizontal>Fiat Selection</Divider>
           <Divider horizontal>App Dashboard</Divider>
+          <Divider horizontal>Connection Status</Divider>
+          <ConnectionStatus 
+            isMetaMask={this.state.isMetaMask}
+            isUnlocked={this.state.isUnlocked}
+            network={this.state.network}
+            currentAccount={this.state.currentAccount}
+          />
+          <br />
           <footer>
             <p>GOW &copy; 2019</p>
           </footer>
@@ -33,19 +41,19 @@ class App extends React.Component {
     );
   }
 
-  // async componentDidMount() {
-  //   const isMetaMask = statusService.isMetaMask();
-  //   const network = await statusService.getNetwork();
-  //   const accounts = await statusService.getAccounts();
-  //   const isUnlocked = accounts.length > 0;
-  //   const currentAccount = accounts[0];
-  //   this.setState({
-  //     isMetaMask,
-  //     network,
-  //     isUnlocked,
-  //     currentAccount
-  //   });
-  // }
+  async componentDidMount() {
+    const isMetaMask = connectionService.isMetaMask();
+    const network = await connectionService.getNetwork();
+    const accounts = await connectionService.getAccounts();
+    const isUnlocked = accounts.length > 0;
+    const currentAccount = accounts[0];
+    this.setState({
+      isMetaMask,
+      network,
+      isUnlocked,
+      currentAccount
+    });
+  }
 }
 
 export default App;
