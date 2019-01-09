@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Divider } from 'semantic-ui-react';
 
-// import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -9,7 +8,14 @@ class App extends Component {
     return (
       <div className="App">
         <Container>
-          <Header as='h1'>Coins Dashboard</Header>
+          <br />
+          <Header as='h1'>Stable Coins Dashboard</Header>
+          <Divider horizontal>Connection Status</Divider>
+          <Divider horizontal>Fiat Selection</Divider>
+          <Divider horizontal>App Dashboard</Divider>
+          <footer>
+            <p>GOW &copy; 2019</p>
+          </footer>
         </Container>
       </div>
     );
