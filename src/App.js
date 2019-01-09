@@ -2,8 +2,9 @@ import React from 'react';
 import { Container, Header, Divider } from 'semantic-ui-react';
 
 import './App.css';
-import ConnectionStatus from './components/ConnectionStatus';
 import connectionService from './service/connectionService';
+import AppDashboard from './components/AppDashboard';
+import ConnectionStatus from './components/ConnectionStatus';
 
 class App extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class App extends React.Component {
           <Header as='h1'>Stable Coins Dashboard</Header>
           <br />
           <Divider horizontal>App Dashboard</Divider>
+          <AppDashboard />
           <Divider horizontal>Connection Status</Divider>
           <ConnectionStatus 
             isMetaMask={this.state.isMetaMask}
