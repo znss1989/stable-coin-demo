@@ -22,7 +22,7 @@ class App extends React.Component {
       <div className="App">
         <Container>
           <br />
-          <Header as='h1'>Stable Coins Dashboard</Header>
+          <Header as='h1' color="blue">Stable Coins Dashboard</Header>
           <br />
           <Divider horizontal>App Dashboard</Divider>
           <AppDashboard />
