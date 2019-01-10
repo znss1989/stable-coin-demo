@@ -25,7 +25,7 @@ class TransferApprove extends React.Component {
       <div>
         <Segment>
           <h3>Token Transfer</h3>
-          <Form onSubmit={this.handleTransferSubmit}>
+          <Form onSubmit={ this.handleTransferSubmit }>
             <Form.Field>
               <label className="form-row" htmlFor="transfer-recipient">
                 Recipient Address
@@ -44,7 +44,7 @@ class TransferApprove extends React.Component {
           </Form>
           <br />
           <h3>Approve</h3>
-          <Form>
+          <Form onSubmit={ this.handleApproveSubmit }>
             <Form.Field>
               <label className="form-row" htmlFor="approve-spender">
                 Spender Address
