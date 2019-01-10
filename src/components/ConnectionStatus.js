@@ -19,7 +19,7 @@ const ConnectionStatus = (props) => {
           Account unlocked: { props.isUnlocked ? <Icon name="check" color="green"></Icon> : <Icon name="cancel" color="red"></Icon> }
         </Grid.Column>
         <Grid.Column width={10}>
-          Current Account: <EtherscanLink address={props.currentAccount} />
+          Current Account <EtherscanLink address={props.currentAccount} />
         </Grid.Column>
       </Grid>
     </div>

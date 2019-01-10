@@ -11,7 +11,7 @@ class AppDashboard extends React.Component {
     this.state = {
       token: 'ToCNH',
       ready: false,
-      activeItem: 'admin',
+      activeItem: 'info',
       inst: '',
       tokenName: '',
       symbol: '',
