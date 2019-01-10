@@ -2,6 +2,7 @@ import React from 'react';
 
 import BasicInfo from './BasicInfo';
 import TransferApprove from './TransferApprove';
+import BalanceAllowance from './BalanceAllowance';
 
 class InteractPanel extends React.Component {
   render() {
@@ -24,6 +25,12 @@ class InteractPanel extends React.Component {
               currentAccount={this.props.currentAccount}
             />
           );
+      case 'query':
+            return (
+              <BalanceAllowance 
+                inst={this.props.inst}
+              />
+            );
       default:
         return (
           <BasicInfo 
