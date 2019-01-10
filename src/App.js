@@ -36,6 +36,7 @@ class App extends React.Component {
             currentAccount={this.state.currentAccount}
           />
           <br />
+          <br />
           <footer>
             <p>GOW &copy; 2019</p>
           </footer>
