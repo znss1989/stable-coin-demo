@@ -4,6 +4,7 @@ import BasicInfo from './BasicInfo';
 import TransferApprove from './TransferApprove';
 import BalanceAllowance from './BalanceAllowance';
 import MintBurn from './MintBurn';
+import Admin from './Admin';
 
 class InteractPanel extends React.Component {
   render() {
@@ -35,6 +36,16 @@ class InteractPanel extends React.Component {
       case 'mint':
         return (
           <MintBurn
+            inst={ this.props.inst }
+            currentAccount={ this.props.currentAccount }
+            owner={ this.props.owner }
+            mintWallet={ this.props.mintWallet }
+            recycleWallet={ this.props.recycleWallet }
+          />
+        );
+      case 'admin':
+        return (
+          <Admin
             inst={ this.props.inst }
             currentAccount={ this.props.currentAccount }
             owner={ this.props.owner }
