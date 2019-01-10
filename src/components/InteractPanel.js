@@ -1,13 +1,13 @@
 import React from 'react';
 
 import BasicInfo from './BasicInfo';
+import TransferApprove from './TransferApprove';
 
 class InteractPanel extends React.Component {
   render() {
-    return (
-      <div>
-        { 
-          this.props.activeItem === 'info' ? 
+    switch (this.props.activeItem) {
+      case 'info':
+        return (
           <BasicInfo 
             tokenName={this.props.tokenName}
             symbol={this.props.symbol}
@@ -15,11 +15,24 @@ class InteractPanel extends React.Component {
             totalSupply={this.props.totalSupply}
             contractAddress={this.props.contractAddress}
             owner={this.props.owner}
-          /> : 
-          null 
-        }
-      </div>
-    );
+          />
+        );
+      case 'transfer':
+          return (
+            <TransferApprove />
+          );
+      default:
+        return (
+          <BasicInfo 
+            tokenName={this.props.tokenName}
+            symbol={this.props.symbol}
+            decimals={this.props.decimals}
+            totalSupply={this.props.totalSupply}
+            contractAddress={this.props.contractAddress}
+            owner={this.props.owner}
+          />
+        );  
+    }
   }
 }
 
