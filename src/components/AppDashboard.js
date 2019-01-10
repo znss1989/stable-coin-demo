@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Grid, Menu, Segment, Dimmer, Loader } from 'semantic-ui-react';
 
 import tokenInstances from '../service/tokenInstances';
+import InteractPanel from './InteractPanel';
 // import InteractPanel from './InteractPanel';
 
 class AppDashboard extends React.Component {
@@ -11,10 +12,17 @@ class AppDashboard extends React.Component {
       token: 'ToCNH',
       ready: false,
       activeItem: 'info',
+      inst: '',
+      tokenName: '',
+      symbol: '',
+      decimals: '',
+      totalSupply: '',
+      contractAddress: '',
+      owner: '',
     };
     this.handleFiatSelect = this.handleFiatSelect.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
-    this.tokenDataFetch = this.tokenDataFetch.bind(this);
+    this.tokenDataFetch = this.fetchData.bind(this);
   }
 
   render() {
@@ -54,13 +62,25 @@ class AppDashboard extends React.Component {
             </Menu>
           </Grid.Column>
           <Grid.Column width={13}>
-            <Segment id="panel-loader-segment">
-              <Dimmer active inverted>
-                <Loader inverted>Loading</Loader>
-              </Dimmer>
-            </Segment>
-
-            {/* { this.state.ready ? <Loader size='medium'>Loading</Loader> : <Loader size='medium'>Loading</Loader> } */}
+            { 
+              this.state.ready ? 
+              <InteractPanel 
+                activeItem={this.state.activeItem}
+                inst={this.state.inst}
+                tokenName={this.state.tokenName}
+                symbol={this.state.symbol}
+                decimals={this.state.decimals}
+                totalSupply={this.state.totalSupply}
+                contractAddress={this.state.contractAddress}
+                owner={this.state.owner}
+                currentAccount={this.props.currentAccount}
+              /> : 
+              <Segment id="panel-loader-segment">
+                <Dimmer active inverted>
+                  <Loader inverted>Loading</Loader>
+                </Dimmer>
+              </Segment> 
+            }
           </Grid.Column>
         </Grid>
       </div>
@@ -68,27 +88,46 @@ class AppDashboard extends React.Component {
   }
 
   async componentDidMount() {
-    await this.tokenDataFetch(this.state.token);
-  }
-
-  async tokenDataFetch(name) {
     await this.setState({
       ready: false
+    }, () => {
+      this.fetchData(this.state.token)
     });
+  }
+
+  async fetchData(name) {
     const tokenInstance = tokenInstances[name + 'Inst'];
+    const tokenName = await tokenInstance.methods.name().call();
+    const symbol = await tokenInstance.methods.symbol().call();
+    const decimals = await tokenInstance.methods.decimals().call();
+    const totalSupply = await tokenInstance.methods.totalSupply().call();
+    const contractAddress = tokenInstance.options.address;
+    const owner = await tokenInstance.methods.owner().call();
     this.setState({
-      token: name
+      token: name,
+      inst: tokenInstance,
+      tokenName,
+      symbol,
+      decimals,
+      totalSupply,
+      contractAddress,
+      owner,
+    }, () => {
+      this.setState({
+        ready: true
+      });
     });
     console.log(tokenInstance);
     console.log(tokenInstance.options.address);
-    await this.setState({
-      ready: true
-    });
   }
 
   async handleFiatSelect(event, { name }) {
     event.preventDefault();
-    await this.tokenDataFetch(name);
+    this.setState({
+      ready: false
+    }, () => {
+      this.fetchData(name);
+    });
   }
 
   handleMenuClick(event, { name }) {

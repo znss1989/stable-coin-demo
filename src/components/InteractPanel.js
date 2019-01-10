@@ -1,10 +1,23 @@
 import React from 'react';
 
+import BasicInfo from './BasicInfo';
+
 class InteractPanel extends React.Component {
   render() {
     return (
       <div>
-        InteractPanel
+        { 
+          this.props.activeItem === 'info' ? 
+          <BasicInfo 
+            tokenName={this.props.tokenName}
+            symbol={this.props.symbol}
+            decimals={this.props.decimals}
+            totalSupply={this.props.totalSupply}
+            contractAddress={this.props.contractAddress}
+            owner={this.props.owner}
+          /> : 
+          null 
+        }
       </div>
     );
   }

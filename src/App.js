@@ -25,7 +25,9 @@ class App extends React.Component {
           <Header as='h1' color="blue">Stable Coins Dashboard</Header>
           <br />
           <Divider horizontal>App Dashboard</Divider>
-          <AppDashboard />
+          <AppDashboard
+            currentAccount={this.state.currentAccount}
+          />
           <Divider horizontal>Connection Status</Divider>
           <ConnectionStatus 
             isMetaMask={this.state.isMetaMask}
