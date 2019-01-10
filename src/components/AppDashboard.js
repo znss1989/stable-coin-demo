@@ -11,7 +11,7 @@ class AppDashboard extends React.Component {
     this.state = {
       token: 'ToCNH',
       ready: false,
-      activeItem: 'query',
+      activeItem: 'mint',
       inst: '',
       tokenName: '',
       symbol: '',
@@ -19,6 +19,8 @@ class AppDashboard extends React.Component {
       totalSupply: '',
       contractAddress: '',
       owner: '',
+      mintWallet: '',
+      recycleWallet: ''
     };
     this.handleFiatSelect = this.handleFiatSelect.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -53,7 +55,7 @@ class AppDashboard extends React.Component {
         {/* Dashboard */}
         <Grid>
           <Grid.Column width={3}>
-            <Menu fluid vertical tabular>
+            <Menu fluid vertical pointing secondary>
               <Menu.Item name='info' active={this.state.activeItem === 'info'} onClick={this.handleMenuClick}>Basic info</Menu.Item>
               <Menu.Item name='transfer' active={this.state.activeItem === 'transfer'} onClick={this.handleMenuClick}>Transfer / Approve</Menu.Item>
               <Menu.Item name='query' active={this.state.activeItem === 'query'} onClick={this.handleMenuClick}>Balance / Allowance</Menu.Item>
@@ -65,15 +67,17 @@ class AppDashboard extends React.Component {
             { 
               this.state.ready ? 
               <InteractPanel 
-                activeItem={this.state.activeItem}
-                inst={this.state.inst}
-                tokenName={this.state.tokenName}
-                symbol={this.state.symbol}
-                decimals={this.state.decimals}
-                totalSupply={this.state.totalSupply}
-                contractAddress={this.state.contractAddress}
-                owner={this.state.owner}
-                currentAccount={this.props.currentAccount}
+                activeItem={ this.state.activeItem }
+                inst={ this.state.inst }
+                tokenName={ this.state.tokenName }
+                symbol={ this.state.symbol }
+                decimals={ this.state.decimals }
+                totalSupply={ this.state.totalSupply }
+                contractAddress={ this.state.contractAddress }
+                owner={ this.state.owner }
+                mintWallet={ this.state.mintWallet }
+                recycleWallet={ this.state.recycleWallet }
+                currentAccount={ this.props.currentAccount }
               /> : 
               <Segment id="panel-loader-segment">
                 <Dimmer active inverted>
@@ -103,6 +107,8 @@ class AppDashboard extends React.Component {
     const totalSupply = await tokenInstance.methods.totalSupply().call();
     const contractAddress = tokenInstance.options.address;
     const owner = await tokenInstance.methods.owner().call();
+    const mintWallet = await tokenInstance.methods.mintWallet().call();
+    const recycleWallet = await tokenInstance.methods.recycleWallet().call();
     this.setState({
       token: name,
       inst: tokenInstance,
@@ -112,6 +118,8 @@ class AppDashboard extends React.Component {
       totalSupply,
       contractAddress,
       owner,
+      mintWallet,
+      recycleWallet
     }, () => {
       this.setState({
         ready: true

@@ -3,6 +3,7 @@ import React from 'react';
 import BasicInfo from './BasicInfo';
 import TransferApprove from './TransferApprove';
 import BalanceAllowance from './BalanceAllowance';
+import MintBurn from './MintBurn';
 
 class InteractPanel extends React.Component {
   render() {
@@ -19,18 +20,28 @@ class InteractPanel extends React.Component {
           />
         );
       case 'transfer':
-          return (
-            <TransferApprove 
-              inst={this.props.inst}
-              currentAccount={ this.props.currentAccount }
-            />
-          );
+        return ( 
+          <TransferApprove 
+            inst={this.props.inst}
+            currentAccount={ this.props.currentAccount }
+          />
+        );
       case 'query':
-            return (
-              <BalanceAllowance 
-                inst={ this.props.inst }
-              />
-            );
+        return (
+          <BalanceAllowance 
+            inst={ this.props.inst }
+          />
+        );
+      case 'mint':
+        return (
+          <MintBurn
+            inst={ this.props.inst }
+            currentAccount={ this.props.currentAccount }
+            owner={ this.props.owner }
+            mintWallet={ this.props.mintWallet }
+            recycleWallet={ this.props.recycleWallet }
+          />
+        );
       default:
         return (
           <BasicInfo 
@@ -47,16 +58,3 @@ class InteractPanel extends React.Component {
 }
 
 export default InteractPanel;
-
-            {/* {this.state.activeItem === 'info' ? <BasicInfo 
-              inst={ISCoinInst}
-              account={this.state.account}
-              name={this.state.name} 
-              symbol={this.state.symbol} 
-              decimals={this.state.decimals} 
-              totalSupply={this.state.totalSupply} 
-              contractAddress={this.state.contractAddress} 
-              owner={this.state.owner} /> : null}
-            {this.state.activeItem === 'transfer' ? <Transfer inst={ISCoinInst} account={this.state.account} /> : null}
-            {this.state.activeItem === 'query' ? <Query inst={ISCoinInst} /> : null}
-            {this.state.activeItem === 'mint' ? <Mint inst={ISCoinInst} account={this.state.account} /> : null} */}
