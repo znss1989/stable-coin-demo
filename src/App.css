@@ -22,6 +22,11 @@
   color: #61dafb;
 }
 
+#panel-loader-segment {
+  display: block;
+  min-height: 210px;
+}
+
 footer {
   color: #aaa;
 }

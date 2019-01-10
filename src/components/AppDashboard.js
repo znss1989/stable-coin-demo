@@ -1,13 +1,16 @@
 import React from 'react';
-import { Button, Grid, Menu } from 'semantic-ui-react';
+import { Button, Grid, Menu, Segment, Dimmer, Loader } from 'semantic-ui-react';
 
 import tokenInstances from '../service/tokenInstances';
+// import InteractPanel from './InteractPanel';
 
 class AppDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       token: 'ToCNH',
+      ready: false,
+      activeItem: 'info',
     };
     this.handleFiatSelect = this.handleFiatSelect.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -37,6 +40,8 @@ class AppDashboard extends React.Component {
             onClick={this.handleFiatSelect}
           >ToUSD</Button>
         </Button.Group>
+        <br />
+        <br />
         {/* Dashboard */}
         <Grid>
           <Grid.Column width={3}>
@@ -49,18 +54,13 @@ class AppDashboard extends React.Component {
             </Menu>
           </Grid.Column>
           <Grid.Column width={13}>
-            {/* {this.state.activeItem === 'info' ? <BasicInfo 
-              inst={ISCoinInst}
-              account={this.state.account}
-              name={this.state.name} 
-              symbol={this.state.symbol} 
-              decimals={this.state.decimals} 
-              totalSupply={this.state.totalSupply} 
-              contractAddress={this.state.contractAddress} 
-              owner={this.state.owner} /> : null}
-            {this.state.activeItem === 'transfer' ? <Transfer inst={ISCoinInst} account={this.state.account} /> : null}
-            {this.state.activeItem === 'query' ? <Query inst={ISCoinInst} /> : null}
-            {this.state.activeItem === 'mint' ? <Mint inst={ISCoinInst} account={this.state.account} /> : null} */}
+            <Segment id="panel-loader-segment">
+              <Dimmer active inverted>
+                <Loader inverted>Loading</Loader>
+              </Dimmer>
+            </Segment>
+
+            {/* { this.state.ready ? <Loader size='medium'>Loading</Loader> : <Loader size='medium'>Loading</Loader> } */}
           </Grid.Column>
         </Grid>
       </div>
@@ -72,12 +72,18 @@ class AppDashboard extends React.Component {
   }
 
   async tokenDataFetch(name) {
+    await this.setState({
+      ready: false
+    });
     const tokenInstance = tokenInstances[name + 'Inst'];
     this.setState({
       token: name
     });
     console.log(tokenInstance);
     console.log(tokenInstance.options.address);
+    await this.setState({
+      ready: true
+    });
   }
 
   async handleFiatSelect(event, { name }) {
