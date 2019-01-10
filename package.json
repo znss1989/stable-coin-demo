@@ -2,6 +2,7 @@
   "name": "coins-dashboard",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "fs-extra": "^7.0.1",
     "react": "^16.7.0",
