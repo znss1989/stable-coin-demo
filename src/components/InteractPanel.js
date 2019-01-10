@@ -19,7 +19,10 @@ class InteractPanel extends React.Component {
         );
       case 'transfer':
           return (
-            <TransferApprove />
+            <TransferApprove 
+              inst={this.props.inst}
+              currentAccount={this.props.currentAccount}
+            />
           );
       default:
         return (

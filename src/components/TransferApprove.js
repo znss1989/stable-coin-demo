@@ -15,6 +15,55 @@ class TransferApprove extends React.Component {
     this.handleTransferRecipientChange = this.handleTransferRecipientChange.bind(this);
     this.handleTransferAmountChange = this.handleTransferAmountChange.bind(this);
     this.handleTransferSubmit = this.handleTransferSubmit.bind(this);
+    this.handleApproveSpenderChange = this.handleApproveSpenderChange.bind(this);
+    this.handleApproveAmountChange = this.handleApproveAmountChange.bind(this);
+    this.handleApproveSubmit = this.handleApproveSubmit.bind(this);
+  }
+
+  render() {
+    return (
+      <div>
+        <Segment>
+          <h3>Token Transfer</h3>
+          <Form onSubmit={this.handleTransferSubmit}>
+            <Form.Field>
+              <label className="form-row" htmlFor="transfer-recipient">
+                Recipient Address
+              </label>
+              <input id="transfer-recipient" type="text" name="recipient" placeholder="0x123..." 
+                value={ this.state.transferRecipient } onChange={ this.handleTransferRecipientChange } />
+            </Form.Field>
+            <Form.Field>
+              <label className="form-row" htmlFor="transfer-amount">
+                Value
+              </label>
+              <input id="transfer-amount" type="text" name="transfer-amount" placeholder="Amount of tokens" 
+                value={ this.state.transferAmount } onChange={ this.handleTransferAmountChange } />
+            </Form.Field>
+            <Button className="form-row center-button" type="submit" primary fluid>Transfer</Button>
+          </Form>
+          <br />
+          <h3>Approve</h3>
+          <Form>
+            <Form.Field>
+              <label className="form-row" htmlFor="approve-spender">
+                Spender Address
+              </label>
+              <input id="approve-spender" type="text" name="spender" placeholder="0x123..."
+                value={ this.state.approveSpender }  onChange={ this.handleApproveSpenderChange } />
+            </Form.Field>
+            <Form.Field>
+              <label className="form-row" htmlFor="approve-amount">
+                Value to approve
+              </label>
+              <input id="approve-amount" type="text" name="approve-amount" placeholder="Amount of tokens" 
+                value={ this.state.approveAmount } onChange={ this.handleApproveAmountChange } />
+            </Form.Field>
+            <Button className="form-row center-button" type="submit" primary fluid>Approve</Button>
+          </Form>
+        </Segment>
+      </div>
+    );
   }
 
   handleTransferRecipientChange(event) {
@@ -31,40 +80,36 @@ class TransferApprove extends React.Component {
 
   async handleTransferSubmit(event) {
     event.preventDefault();
-    const amountStr= web3.utils.toWei(this.state.transferAmount, 'ether').toString();
+    const amountStr= web3.utils.toWei(this.state.transferAmount, 'mwei').toString();
     await this.props.inst.methods.transfer(
       this.state.transferRecipient, 
       amountStr
     ).send({
-      from: this.props.account
+      from: this.props.currentAccount
     });
   }
 
-  render() {
-    return (
-      <div>
-        <Segment>
-          <h3>Token Transfer</h3>
-          <Form onSubmit={this.handleTransferSubmit}>
-            <Form.Field>
-              <label className="form-row" htmlFor="transfer-recipient">
-                Recipient Address
-              </label>
-              <input id="transfer-recipient" type="text" name="recipient" placeholder="0x123..." 
-                value={this.state.transferRecipient} onChange={this.handleTransferRecipientChange} />
-            </Form.Field>
-            <Form.Field>
-              <label className="form-row" htmlFor="transfer-amount">
-                Value
-              </label>
-              <input id="transfer-amount" type="text" name="amount" placeholder="Amount of tokens" 
-                value={this.state.transferAmount} onChange={this.handleTransferAmountChange} />
-            </Form.Field>
-            <Button className="form-row center-button" type="submit" primary fluid>Transfer</Button>
-          </Form>
-        </Segment>
-      </div>
-    );
+  handleApproveSpenderChange(event) {
+    this.setState({
+      approveSpender: event.target.value
+    });
+  }
+
+  handleApproveAmountChange(event) {
+    this.setState({
+      approveAmount: event.target.value
+    });
+  }
+
+  async handleApproveSubmit(event) {
+    event.preventDefault();
+    const amountStr= web3.utils.toWei(this.state.approveAmount, 'mwei').toString();
+    await this.props.inst.methods.approve(
+      this.state.approveSpender, 
+      amountStr
+    ).send({
+      from: this.props.currentAccount
+    });
   }
 }
 
