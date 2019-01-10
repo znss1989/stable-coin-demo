@@ -22,13 +22,13 @@ class InteractPanel extends React.Component {
           return (
             <TransferApprove 
               inst={this.props.inst}
-              currentAccount={this.props.currentAccount}
+              currentAccount={ this.props.currentAccount }
             />
           );
       case 'query':
             return (
               <BalanceAllowance 
-                inst={this.props.inst}
+                inst={ this.props.inst }
               />
             );
       default:
