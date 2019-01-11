@@ -92,11 +92,10 @@ class AppDashboard extends React.Component {
   }
 
   async componentDidMount() {
-    await this.setState({
+    this.setState({
       ready: false
-    }, () => {
-      this.fetchData(this.state.token)
     });
+    this.fetchData(this.state.token)
   }
 
   async fetchData(name) {
@@ -110,6 +109,7 @@ class AppDashboard extends React.Component {
     const mintWallet = await tokenInstance.methods.mintWallet().call();
     const recycleWallet = await tokenInstance.methods.recycleWallet().call();
     this.setState({
+      ready: true,
       token: name,
       inst: tokenInstance,
       tokenName,
@@ -120,22 +120,15 @@ class AppDashboard extends React.Component {
       owner,
       mintWallet,
       recycleWallet
-    }, () => {
-      this.setState({
-        ready: true
-      });
     });
-    console.log(tokenInstance);
-    console.log(tokenInstance.options.address);
   }
 
   async handleFiatSelect(event, { name }) {
     event.preventDefault();
     this.setState({
       ready: false
-    }, () => {
-      this.fetchData(name);
     });
+    this.fetchData(name);
   }
 
   handleMenuClick(event, { name }) {

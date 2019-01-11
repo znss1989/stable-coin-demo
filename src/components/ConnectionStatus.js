@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Icon } from 'semantic-ui-react';
+import { Grid, Icon } from 'semantic-ui-react';
 
 import EtherscanLink from './EtherscanLink';
 
