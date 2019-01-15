@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "cross-fetch": "^3.0.0",
     "fs-extra": "^7.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
