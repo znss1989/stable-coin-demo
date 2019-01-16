@@ -31,7 +31,7 @@ class Usage extends React.Component {
   }
 
   render() {
-    const isSpecialAccount = this.props.currentAccount === this.props.owner || this.props.currentAccount === this.props.mintWallet || this.props.recycleWallet;
+    const isSpecialAccount = this.props.currentAccount === this.props.owner || this.props.currentAccount === this.props.mintWallet || this.props.currentAccount === this.props.recycleWallet;
     return (
       <div>
         <Segment>
