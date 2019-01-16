@@ -2,8 +2,8 @@ import React from 'react';
 
 import BasicInfo from './BasicInfo';
 import Usage from './Usage';
-import Mint from './Mint';
-import Burn from './Burn';
+import Issue from './Issue';
+import Recycle from './Recycle';
 import Admin from './Admin';
 
 class InteractPanel extends React.Component {
@@ -25,11 +25,14 @@ class InteractPanel extends React.Component {
           <Usage 
             inst={this.props.inst}
             currentAccount={ this.props.currentAccount }
+            owner={ this.props.owner }
+            mintWallet={ this.props.mintWallet }
+            recycleWallet={ this.props.recycleWallet }
           />
         );
-      case 'mint':
+      case 'issue':
         return (
-          <Mint
+          <Issue
             inst={ this.props.inst }
             currentAccount={ this.props.currentAccount }
             owner={ this.props.owner }
@@ -39,7 +42,7 @@ class InteractPanel extends React.Component {
         );
       case 'burn':
         return (
-          <Burn
+          <Recycle
             inst={ this.props.inst }
             currentAccount={ this.props.currentAccount }
             owner={ this.props.owner }

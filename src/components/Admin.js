@@ -1,13 +1,18 @@
 import React from 'react';
-import { Segment, Form, Button } from 'semantic-ui-react';
+import { Segment, Form, Modal, Button } from 'semantic-ui-react';
+
+import web3 from '../service/web3';
 
 class Admin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      mintValue: '',
       mintWallet: '',
       recycleWallet: ''
     };
+    this.handleMintValueChange = this.handleMintValueChange.bind(this);
+    this.handleMintSubmit = this.handleMintSubmit.bind(this);
     this.handleMintWalletChange = this.handleMintWalletChange.bind(this);
     this.handleSetMintWalletSubmit = this.handleSetMintWalletSubmit.bind(this);
     this.handleRecycleWalletChange = this.handleRecycleWalletChange.bind(this);
@@ -18,32 +23,78 @@ class Admin extends React.Component {
     return (
       <div>
         <Segment>
-          <h3>Set Mint Wallet</h3>
-          <Form onSubmit={ this.handleSetMintWalletSubmit }>
-            <Form.Field>
-              <label className="form-row" htmlFor="mint-wallet">
-                New Mint Wallet
-              </label>
-              <input id="mint-wallet" type="text" name="mint-wallet" placeholder="0x123..."
-                value={this.state.mintWallet} onChange={ this.handleMintWalletChange } />
-            </Form.Field>
-            <Button className="form-row center-button" type="submit" primary fluid>Set New Mint Wallet</Button>
-          </Form>
+          <h3>Admin</h3>
           <br />
-          <h3>Set Recycle Wallet</h3>
-          <Form onSubmit={ this.handleSetRecycleWalletSubmit}>
-            <Form.Field>
-              <label className="form-row" htmlFor="recycle-wallet">
-                New Recycle Wallet
-              </label>
-              <input id="recycle-wallet" type="text" name="recycle-wallet" placeholder="0x123..."
-                value={this.state.recycleWallet} onChange={ this.handleRecycleWalletChange } />
-            </Form.Field>
-            <Button className="form-row center-button" type="submit" primary fluid>Set New Recycle Wallet</Button>
-          </Form>
+          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid>Mint</Button>}>
+            <Modal.Header>Mint</Modal.Header>
+            <Modal.Content>
+              <Form onSubmit={ this.handleMintSubmit }>
+                <Form.Field>
+                  <label className="form-row" htmlFor="mint-value">
+                    Value
+                  </label>
+                  <input id="mint-value" type="text" name="mint-value" placeholder="Amount of tokens" 
+                    value={ this.state.mintValue } onChange={ this.handleMintValueChange } />
+                </Form.Field>
+                <Button className="form-row center-button" type="submit" primary fluid>Mint</Button>
+              </Form>
+            </Modal.Content>
+          </Modal>
+          <br />
+          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid>Set Mint Wallet</Button>}>
+            <Modal.Header>Set New Mint Wallet</Modal.Header>
+            <Modal.Content>
+            <Form onSubmit={ this.handleSetMintWalletSubmit }>
+              <Form.Field>
+                <label className="form-row" htmlFor="mint-wallet">
+                  New Mint Wallet
+                </label>
+                <input id="mint-wallet" type="text" name="mint-wallet" placeholder="0x123..."
+                  value={this.state.mintWallet} onChange={ this.handleMintWalletChange } />
+              </Form.Field>
+              <Button className="form-row center-button" type="submit" primary fluid>Set New Mint Wallet</Button>
+            </Form>
+            </Modal.Content>
+          </Modal>
+          <br />
+          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid>Set Recycle Wallet</Button>}>
+            <Modal.Header>Mint</Modal.Header>
+            <Modal.Content>
+              <Form onSubmit={ this.handleSetRecycleWalletSubmit}>
+                <Form.Field>
+                  <label className="form-row" htmlFor="recycle-wallet">
+                    New Recycle Wallet
+                  </label>
+                  <input id="recycle-wallet" type="text" name="recycle-wallet" placeholder="0x123..."
+                    value={this.state.recycleWallet} onChange={ this.handleRecycleWalletChange } />
+                </Form.Field>
+                <Button className="form-row center-button" type="submit" primary fluid>Set New Recycle Wallet</Button>
+              </Form>
+            </Modal.Content>
+          </Modal>
         </Segment>
       </div>
     );
+  }
+
+  handleMintValueChange(event) {
+    this.setState({
+      mintValue: event.target.value
+    });
+  }
+
+  async handleMintSubmit(event) {
+    event.preventDefault();
+    const mintValueStr = web3.utils.toWei(this.state.mintValue, 'mwei').toString();
+    try {
+      await this.props.inst.methods.mint(
+        mintValueStr
+      ).send({
+        from: this.props.currentAccount
+      });
+    } catch(err) {
+      alert(err);
+    }
   }
 
   handleMintWalletChange(event) {
@@ -54,11 +105,15 @@ class Admin extends React.Component {
 
   async handleSetMintWalletSubmit(event) {
     event.preventDefault();
-    await this.props.inst.methods.setMintWallet(
-      this.state.mintWallet
-    ).send({
-      from: this.props.currentAccount
-    });
+    try {
+      await this.props.inst.methods.setMintWallet(
+        this.state.mintWallet
+      ).send({
+        from: this.props.currentAccount
+      });
+    } catch(err) {
+      alert(err);
+    }
   }
 
   handleRecycleWalletChange(event) {
@@ -69,11 +124,15 @@ class Admin extends React.Component {
 
   async handleSetRecycleWalletSubmit(event) {
     event.preventDefault();
-    await this.props.inst.methods.setMintWallet(
-      this.state.recycleWallet
-    ).send({
-      from: this.props.currentAccount
-    });
+    try {
+      await this.props.inst.methods.setMintWallet(
+        this.state.recycleWallet
+      ).send({
+        from: this.props.currentAccount
+      });
+    } catch(err) {
+      alert(err);
+    }
   }
 }
 

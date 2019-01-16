@@ -93,7 +93,7 @@ class Usage extends React.Component {
                   <input id="query-account" type="text" name="query-account" placeholder="0x123..."
                   value={ this.state.queryAccount } onChange={ this.handleQueryAccountChange } />
                 </Form.Field>
-                <Button className="form-row center-button" type="submit" primary fluid>Check Balance</Button>
+                <Button className="form-row center-button" type="submit" color="teal" fluid>Check Balance</Button>
               </Form>
               { 
                 this.state.balance ? 
@@ -122,7 +122,7 @@ class Usage extends React.Component {
                   <input id="allowance-spender" type="text" name="allowance-spener" placeholder="0x123..."
                   value={ this.state.allowanceSpender } onChange={ this.handleAllowanceSpenderChange } />
                 </Form.Field>
-                <Button className="form-row center-button" type="submit" primary fluid>Check Allowance</Button>
+                <Button className="form-row center-button" type="submit" color="teal" fluid>Check Allowance</Button>
               </Form>
               { 
                 this.state.allowance ? 
@@ -152,12 +152,16 @@ class Usage extends React.Component {
   async handleTransferSubmit(event) {
     event.preventDefault();
     const amountStr= web3.utils.toWei(this.state.transferAmount, 'mwei').toString();
-    await this.props.inst.methods.transfer(
-      this.state.transferRecipient, 
-      amountStr
-    ).send({
-      from: this.props.currentAccount
-    });
+    try {
+      await this.props.inst.methods.transfer(
+        this.state.transferRecipient, 
+        amountStr
+      ).send({
+        from: this.props.currentAccount
+      });
+    } catch(err) {
+      alert(err);
+    }
   }
 
   handleApproveSpenderChange(event) {
@@ -175,12 +179,16 @@ class Usage extends React.Component {
   async handleApproveSubmit(event) {
     event.preventDefault();
     const amountStr= web3.utils.toWei(this.state.approveAmount, 'mwei').toString();
-    await this.props.inst.methods.approve(
-      this.state.approveSpender, 
-      amountStr
-    ).send({
-      from: this.props.currentAccount
-    });
+    try {
+      await this.props.inst.methods.approve(
+        this.state.approveSpender, 
+        amountStr
+      ).send({
+        from: this.props.currentAccount
+      });
+    } catch(err) {
+      alert(err);
+    }
   }
 
   handleQueryAccountChange(event) {
@@ -192,7 +200,12 @@ class Usage extends React.Component {
 
   async handleBalanceSubmit(event) {
     event.preventDefault();
-    const balance = await this.props.inst.methods.balanceOf(this.state.queryAccount).call();
+    let balance;
+    try {
+      balance = await this.props.inst.methods.balanceOf(this.state.queryAccount).call();
+    } catch(err) {
+      alert(err);
+    }
     this.setState({
       balance
     });
@@ -214,7 +227,12 @@ class Usage extends React.Component {
 
   async handleAllowanceSubmit(event) {
     event.preventDefault();
-    const allowance = await this.props.inst.methods.allowance(this.state.allowanceOwner, this.state.allowanceSpender).call();
+    let allowance;
+    try {
+      allowance = await this.props.inst.methods.allowance(this.state.allowanceOwner, this.state.allowanceSpender).call();
+    } catch(err) {
+      alert(err);
+    }
     this.setState({
       allowance
     });
