@@ -3,22 +3,19 @@ import { Segment, Form, Button } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
 
-class MintBurn extends React.Component {
+class Mint extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       mintValue: '',
       issueTo: '',
       issueValue: '',
-      burnValue: ''
     }
     this.handleMintValueChange = this.handleMintValueChange.bind(this);
     this.handleMintSubmit = this.handleMintSubmit.bind(this);
     this.handleIssueToChange = this.handleIssueToChange.bind(this);
     this.handleIssueValueChange = this.handleIssueValueChange.bind(this);
     this.handleIssueSubmit = this.handleIssueSubmit.bind(this);
-    this.handleBurnValueChange = this.handleBurnValueChange.bind(this);
-    this.handleBurnSubmit = this.handleBurnSubmit.bind(this);
   }
 
   render() {
@@ -54,18 +51,6 @@ class MintBurn extends React.Component {
                 value={ this.state.issueValue } onChange={ this.handleIssueValueChange } />
             </Form.Field>
             <Button className="form-row center-button" type="submit" primary fluid>Issue</Button>
-          </Form>
-          <br />
-          <h3>Burn</h3>
-          <Form onSubmit={ this.handleBurnSubmit }>
-            <Form.Field>
-              <label className="form-row" htmlFor="burn-value">
-                Value to Burn
-              </label>
-              <input id="burn-value" type="text" name="burn-value" placeholder="Amount of tokens"
-                value={ this.state.burnValue } onChange={this.handleBurnValueChange } />
-            </Form.Field>
-            <Button className="form-row center-button" type="submit" primary fluid>Burn</Button>
           </Form>
         </Segment>
       </div>
@@ -110,22 +95,6 @@ class MintBurn extends React.Component {
       from: this.props.currentAccount
     });
   }
-
-  handleBurnValueChange(event) {
-    this.setState({
-      burnValue: event.target.value
-    });
-  }
-
-  async handleBurnSubmit(event) {
-    event.preventDefault();
-    const burnValueStr = web3.utils.toWei(this.state.burnValue, 'mwei').toString();
-    await this.props.inst.methods.burn(
-      burnValueStr
-    ).send({
-      from: this.props.currentAccount
-    });
-  }
 }
 
-export default MintBurn;
+export default Mint;

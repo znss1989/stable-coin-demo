@@ -1,9 +1,9 @@
 import React from 'react';
 
 import BasicInfo from './BasicInfo';
-import TransferApprove from './TransferApprove';
-import BalanceAllowance from './BalanceAllowance';
-import MintBurn from './MintBurn';
+import Usage from './Usage';
+import Mint from './Mint';
+import Burn from './Burn';
 import Admin from './Admin';
 
 class InteractPanel extends React.Component {
@@ -22,20 +22,24 @@ class InteractPanel extends React.Component {
         );
       case 'usage':
         return ( 
-          <TransferApprove 
+          <Usage 
             inst={this.props.inst}
             currentAccount={ this.props.currentAccount }
           />
         );
-      case 'query':
-        return (
-          <BalanceAllowance 
-            inst={ this.props.inst }
-          />
-        );
       case 'mint':
         return (
-          <MintBurn
+          <Mint
+            inst={ this.props.inst }
+            currentAccount={ this.props.currentAccount }
+            owner={ this.props.owner }
+            mintWallet={ this.props.mintWallet }
+            recycleWallet={ this.props.recycleWallet }
+          />
+        );
+      case 'burn':
+        return (
+          <Burn
             inst={ this.props.inst }
             currentAccount={ this.props.currentAccount }
             owner={ this.props.owner }
