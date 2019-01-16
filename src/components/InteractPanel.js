@@ -20,7 +20,7 @@ class InteractPanel extends React.Component {
             owner={this.props.owner}
           />
         );
-      case 'transfer':
+      case 'usage':
         return ( 
           <TransferApprove 
             inst={this.props.inst}

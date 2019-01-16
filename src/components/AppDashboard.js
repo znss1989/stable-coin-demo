@@ -11,7 +11,7 @@ class AppDashboard extends React.Component {
     this.state = {
       token: 'ToCNH',
       ready: false,
-      activeItem: 'info',
+      activeItem: 'transfer',
       inst: '',
       tokenName: '',
       symbol: '',
@@ -57,8 +57,7 @@ class AppDashboard extends React.Component {
           <Grid.Column width={3}>
             <Menu fluid vertical pointing secondary>
               <Menu.Item name='info' active={this.state.activeItem === 'info'} onClick={this.handleMenuClick}>Basic info</Menu.Item>
-              <Menu.Item name='transfer' active={this.state.activeItem === 'transfer'} onClick={this.handleMenuClick}>Transfer / Approve</Menu.Item>
-              <Menu.Item name='query' active={this.state.activeItem === 'query'} onClick={this.handleMenuClick}>Balance / Allowance</Menu.Item>
+              <Menu.Item name='usage' active={this.state.activeItem === 'usage'} onClick={this.handleMenuClick}>Usage</Menu.Item>
               <Menu.Item name='mint' active={this.state.activeItem === 'mint'} onClick={this.handleMenuClick}>Mint / Burn</Menu.Item>
               <Menu.Item name='admin' active={this.state.activeItem === 'admin'} onClick={this.handleMenuClick}>Admin</Menu.Item>
             </Menu>

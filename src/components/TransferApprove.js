@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Form, Button } from 'semantic-ui-react';
+import { Segment, Button, Modal, Form } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
 
@@ -24,43 +24,52 @@ class TransferApprove extends React.Component {
     return (
       <div>
         <Segment>
-          <h3>Token Transfer</h3>
-          <Form onSubmit={ this.handleTransferSubmit }>
-            <Form.Field>
-              <label className="form-row" htmlFor="transfer-recipient">
-                Recipient Address
-              </label>
-              <input id="transfer-recipient" type="text" name="recipient" placeholder="0x123..." 
-                value={ this.state.transferRecipient } onChange={ this.handleTransferRecipientChange } />
-            </Form.Field>
-            <Form.Field>
-              <label className="form-row" htmlFor="transfer-amount">
-                Value
-              </label>
-              <input id="transfer-amount" type="text" name="transfer-amount" placeholder="Amount of tokens" 
-                value={ this.state.transferAmount } onChange={ this.handleTransferAmountChange } />
-            </Form.Field>
-            <Button className="form-row center-button" type="submit" primary fluid>Transfer</Button>
-          </Form>
+          <Modal trigger={<Button className="form-row center-button" size="big" primary fluid>Token Transfer</Button>}>
+            <Modal.Header>Token Transfer</Modal.Header>
+            <Modal.Content>
+              <Form onSubmit={ this.handleTransferSubmit }>
+                <Form.Field>
+                  <label className="form-row" htmlFor="transfer-recipient">
+                    Recipient Address
+                  </label>
+                  <input id="transfer-recipient" type="text" name="recipient" placeholder="0x123..." 
+                    value={ this.state.transferRecipient } onChange={ this.handleTransferRecipientChange } />
+                </Form.Field>
+                <Form.Field>
+                  <label className="form-row" htmlFor="transfer-amount">
+                    Value
+                  </label>
+                  <input id="transfer-amount" type="text" name="transfer-amount" placeholder="Amount of tokens" 
+                    value={ this.state.transferAmount } onChange={ this.handleTransferAmountChange } />
+                </Form.Field>
+                <Button className="form-row center-button" type="submit" primary fluid>Transfer</Button>
+              </Form>
+            </Modal.Content>
+          </Modal>
           <br />
-          <h3>Approve</h3>
-          <Form onSubmit={ this.handleApproveSubmit }>
-            <Form.Field>
-              <label className="form-row" htmlFor="approve-spender">
-                Spender Address
-              </label>
-              <input id="approve-spender" type="text" name="spender" placeholder="0x123..."
-                value={ this.state.approveSpender }  onChange={ this.handleApproveSpenderChange } />
-            </Form.Field>
-            <Form.Field>
-              <label className="form-row" htmlFor="approve-amount">
-                Value to approve
-              </label>
-              <input id="approve-amount" type="text" name="approve-amount" placeholder="Amount of tokens" 
-                value={ this.state.approveAmount } onChange={ this.handleApproveAmountChange } />
-            </Form.Field>
-            <Button className="form-row center-button" type="submit" primary fluid>Approve</Button>
-          </Form>
+          <br />
+          <Modal trigger={<Button className="form-row center-button" size="big" primary fluid>Approve</Button>}>
+            <Modal.Header>Token Transfer</Modal.Header>
+            <Modal.Content>
+              <Form onSubmit={ this.handleApproveSubmit }>
+                <Form.Field>
+                  <label className="form-row" htmlFor="approve-spender">
+                    Spender Address
+                  </label>
+                  <input id="approve-spender" type="text" name="spender" placeholder="0x123..."
+                    value={ this.state.approveSpender }  onChange={ this.handleApproveSpenderChange } />
+                </Form.Field>
+                <Form.Field>
+                  <label className="form-row" htmlFor="approve-amount">
+                    Value to approve
+                  </label>
+                  <input id="approve-amount" type="text" name="approve-amount" placeholder="Amount of tokens" 
+                    value={ this.state.approveAmount } onChange={ this.handleApproveAmountChange } />
+                </Form.Field>
+                <Button className="form-row center-button" type="submit" primary fluid>Approve</Button>
+              </Form>
+            </Modal.Content>
+          </Modal>
         </Segment>
       </div>
     );
