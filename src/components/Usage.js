@@ -31,12 +31,21 @@ class Usage extends React.Component {
   }
 
   render() {
+    const isSpecialAccount = this.props.currentAccount === this.props.owner || this.props.currentAccount === this.props.mintWallet || this.props.recycleWallet;
     return (
       <div>
         <Segment>
           <h3>Usage</h3>
           <br />
-          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid>Token Transfer</Button>}>
+          {
+            isSpecialAccount ?   
+            <Message info>
+              <Message.Header>Special account?</Message.Header>
+              <p>Do not transfer or approve being as a special account!</p>
+            </Message> : 
+            null
+          }
+          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={ isSpecialAccount }>Token Transfer</Button>}>
             <Modal.Header>Token Transfer</Modal.Header>
             <Modal.Content>
               <Form onSubmit={ this.handleTransferSubmit }>
@@ -59,7 +68,7 @@ class Usage extends React.Component {
             </Modal.Content>
           </Modal>
           <br />
-          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid>Approve</Button>}>
+          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={ isSpecialAccount }>Approve</Button>}>
             <Modal.Header>Token Transfer</Modal.Header>
             <Modal.Content>
               <Form onSubmit={ this.handleApproveSubmit }>
