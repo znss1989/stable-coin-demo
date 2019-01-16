@@ -60,14 +60,28 @@ class AppDashboard extends React.Component {
               <Menu.Item name='usage' active={this.state.activeItem === 'usage'} onClick={this.handleMenuClick}>Usage</Menu.Item>
               <Menu.Item 
                 name='issue' 
-                active={this.state.activeItem === 'issue'} 
-                onClick={this.handleMenuClick} 
-                disabled={this.props.currentAccount !== this.state.mintWallet}
+                active={ this.state.activeItem === 'issue' } 
+                onClick={ this.handleMenuClick } 
+                disabled={ this.props.currentAccount !== this.state.mintWallet }
               >
                 Issue
               </Menu.Item>
-              <Menu.Item name='burn' active={this.state.activeItem === 'burn'} onClick={this.handleMenuClick}>Recycle</Menu.Item>
-              <Menu.Item name='admin' active={this.state.activeItem === 'admin'} onClick={this.handleMenuClick}>Admin</Menu.Item>
+              <Menu.Item 
+                name='burn' 
+                active={ this.state.activeItem === 'burn' } 
+                onClick={ this.handleMenuClick }
+                disabled={ this.props.currentAccount !== this.state.recycleWallet }
+              >
+                Recycle
+              </Menu.Item>
+              <Menu.Item 
+                name='admin' 
+                active={this.state.activeItem === 'admin'} 
+                onClick={this.handleMenuClick}
+                disabled={ this.props.currentAccount !== this.state.owner }
+              >
+                Admin
+              </Menu.Item>
             </Menu>
           </Grid.Column>
           <Grid.Column width={13}>

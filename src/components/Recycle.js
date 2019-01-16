@@ -18,7 +18,7 @@ class Recycle extends React.Component {
       <div>
         <Segment>
           <h3>Recycle</h3>
-          <Modal trigger={<Button className="form-row center-button" size="large" color="red" fluid>Burn</Button>}>
+          <Modal trigger={<Button className="form-row center-button" size="large" color="red" fluid disabled={this.props.currentAccount !== this.props.recycleWallet}>Burn</Button>}>
             <Modal.Header>Burn</Modal.Header>
             <Modal.Content>
               <Form onSubmit={ this.handleBurnSubmit }>

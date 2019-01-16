@@ -25,7 +25,7 @@ class Admin extends React.Component {
         <Segment>
           <h3>Admin</h3>
           <br />
-          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid>Mint</Button>}>
+          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={this.props.currentAccount !== this.props.owner}>Mint</Button>}>
             <Modal.Header>Mint</Modal.Header>
             <Modal.Content>
               <Form onSubmit={ this.handleMintSubmit }>
