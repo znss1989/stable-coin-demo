@@ -17,12 +17,13 @@ class Issue extends React.Component {
   }
 
   render() {
+    const isMintWallet = this.props.currentAccount === this.props.mintWallet;
     return (
       <div>
         <Segment>
           <h3>Issue</h3>
           <br />
-          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid>Issue</Button>}>
+          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={!isMintWallet}>Issue</Button>}>
             <Modal.Header>Issue</Modal.Header>
             <Modal.Content>
               <Form onSubmit={ this.handleIssueSubmit}>

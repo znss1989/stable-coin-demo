@@ -58,7 +58,14 @@ class AppDashboard extends React.Component {
             <Menu fluid vertical pointing secondary>
               <Menu.Item name='info' active={this.state.activeItem === 'info'} onClick={this.handleMenuClick}>Basic info</Menu.Item>
               <Menu.Item name='usage' active={this.state.activeItem === 'usage'} onClick={this.handleMenuClick}>Usage</Menu.Item>
-              <Menu.Item name='issue' active={this.state.activeItem === 'issue'} onClick={this.handleMenuClick}>Issue</Menu.Item>
+              <Menu.Item 
+                name='issue' 
+                active={this.state.activeItem === 'issue'} 
+                onClick={this.handleMenuClick} 
+                disabled={this.props.currentAccount !== this.state.mintWallet}
+              >
+                Issue
+              </Menu.Item>
               <Menu.Item name='burn' active={this.state.activeItem === 'burn'} onClick={this.handleMenuClick}>Recycle</Menu.Item>
               <Menu.Item name='admin' active={this.state.activeItem === 'admin'} onClick={this.handleMenuClick}>Admin</Menu.Item>
             </Menu>
