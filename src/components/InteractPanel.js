@@ -19,6 +19,16 @@ class InteractPanel extends React.Component {
             contractAddress={this.props.contractAddress}
           />
         );
+      case 'admin':
+        return (
+          <Admin
+            inst={ this.props.inst }
+            currentAccount={ this.props.currentAccount }
+            owner={ this.props.owner }
+            mintWallet={ this.props.mintWallet }
+            recycleWallet={ this.props.recycleWallet }
+          />
+        );
       case 'usage':
         return ( 
           <Usage 
@@ -42,16 +52,6 @@ class InteractPanel extends React.Component {
       case 'burn':
         return (
           <Recycle
-            inst={ this.props.inst }
-            currentAccount={ this.props.currentAccount }
-            owner={ this.props.owner }
-            mintWallet={ this.props.mintWallet }
-            recycleWallet={ this.props.recycleWallet }
-          />
-        );
-      case 'admin':
-        return (
-          <Admin
             inst={ this.props.inst }
             currentAccount={ this.props.currentAccount }
             owner={ this.props.owner }

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Segment, Form, Modal, Button } from 'semantic-ui-react';
+import { Segment, Card, Form, Modal, Button } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
+import EtherscanLink from './EtherscanLink';
 
 class Admin extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class Admin extends React.Component {
       <div>
         <Segment>
           <h3>Admin</h3>
+          <Card fluid meta="Current Contract Owner" description={<EtherscanLink address={ this.props.owner } />} />
           <br />
           <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={this.props.currentAccount !== this.props.owner}>Mint</Button>}>
             <Modal.Header>Mint</Modal.Header>
