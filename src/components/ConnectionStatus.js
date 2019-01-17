@@ -11,12 +11,21 @@ const ConnectionStatus = (props) => {
           MetaMask enabled { props.isMetaMask ? <Icon name="check" color="green"></Icon> : <Icon name="cancel" color="red"></Icon> } 
         </Grid.Column>
         <Grid.Column width={10}>
-          Netowrk：{ props.network.type ? props.network.type.toUpperCase() : '' }
+          Netowrk: 
+          { 
+            props.network.type ? 
+              (
+                props.network.type.toUpperCase() === "RINKEBY" ? 
+                  <a>{props.network.type.toUpperCase()}<Icon name="check" color="green"></Icon></a> : 
+                  <a>{props.network.type.toUpperCase()}<Icon name="cancel" color="red"></Icon> (RINKEBY should be used)</a>
+              ) : 
+              '' 
+          }
         </Grid.Column>
       </Grid>
       <Grid columns={2}>
         <Grid.Column width={6}>
-          Account unlocked: { props.isUnlocked ? <Icon name="check" color="green"></Icon> : <Icon name="cancel" color="red"></Icon> }
+          Account unlocked { props.isUnlocked ? <Icon name="check" color="green"></Icon> : <Icon name="cancel" color="red"></Icon> }
         </Grid.Column>
         <Grid.Column width={10}>
           Current Account <EtherscanLink address={props.currentAccount} />
