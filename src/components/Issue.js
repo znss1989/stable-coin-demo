@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Grid, Divider, Dimmer, Loader, Modal, Button, Form } from 'semantic-ui-react';
+import { Segment, Grid, Divider, Dimmer, Loader, Modal, Button, Form, Icon } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
 import fetchIssueList from '../service/issueListService';
@@ -13,13 +13,15 @@ class Issue extends React.Component {
       ready: false,
       issueValue: '',
       issueDestination: '',
-      issueList: []
+      issueList: [],
+      newIssueMember: ''
     }
     this.setIssueDestination = this.setIssueDestination.bind(this);
     this.resetIssueDestination = this.resetIssueDestination.bind(this);
-    this.handleIssueToChange = this.handleIssueToChange.bind(this);
     this.handleIssueValueChange = this.handleIssueValueChange.bind(this);
     this.handleIssueSubmit = this.handleIssueSubmit.bind(this);
+    this.handleNewIssueMemberChange = this.handleNewIssueMemberChange.bind(this);
+    this.handleAddToIssueListSubmit = this.handleAddToIssueListSubmit.bind(this);
   }
 
   render() {
@@ -77,6 +79,44 @@ class Issue extends React.Component {
             <Divider />
             <Grid>
               { issueSegments }
+              <Grid.Row>
+                <Grid.Column width={4}>
+                  <Modal 
+                    trigger={
+                      <Button 
+                        className="form-row center-button" 
+                        primary
+                        fluid
+                      >
+                        <Icon name="plus" />
+                      </Button>
+                    }
+                  >
+                    <Modal.Header>Add to Issue List</Modal.Header>
+                    <Modal.Content>
+                      <Form onSubmit={ this.handleAddToIssueListSubmit }>
+                        <Form.Field>
+                          <label className="form-row" htmlFor="issue-member">
+                            New Member to Issue List
+                          </label>
+                          <input id="issue-member" type="text" name="issue-member" placeholder="0x123..."
+                            value={ this.state.newIssueMember } onChange={ this.handleNewIssueMemberChange } />
+                        </Form.Field>
+                        {/* <Button className="form-row center-button" type="submit" color="red" fluid>Burn</Button> */}
+                      </Form>
+                    </Modal.Content>
+                    <Modal.Actions>
+                      <ConfirmPrompt
+                        triggerText="Add to Issue List"
+                        color="blue"
+                        handleConfirm={ this.handleAddToIssueListSubmit }
+                      >
+                        <p>{ this.state.issueValue } of { this.props.symbol } will be issued to.</p>
+                      </ConfirmPrompt>
+                    </Modal.Actions>
+                  </Modal>
+                </Grid.Column>
+              </Grid.Row>
             </Grid>
           </Segment> :
           <Segment id="panel-loader-segment">
@@ -85,29 +125,6 @@ class Issue extends React.Component {
             </Dimmer>
           </Segment> 
         }
-
-          {/* <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={!isMintWallet}>Issue</Button>}>
-            <Modal.Header>Issue</Modal.Header>
-            <Modal.Content>
-              <Form onSubmit={ this.handleIssueSubmit}>
-                <Form.Field>
-                  <label className="form-row" htmlFor="issue-to">
-                    Address to Issue
-                  </label>
-                  <input id="issue-to" type="text" name="issue-to" placeholder="0x123..."
-                    value={ this.state.issueTo }  onChange={ this.handleIssueToChange } />
-                </Form.Field>
-                <Form.Field>
-                  <label className="form-row" htmlFor="issue-value">
-                    Value to Issue
-                  </label>
-                  <input id="issue-value" type="text" name="issue-value" placeholder="Amount of tokens" 
-                    value={ this.state.issueValue } onChange={ this.handleIssueValueChange } />
-                </Form.Field>
-                <Button className="form-row center-button" type="submit" primary fluid>Issue</Button>
-              </Form>
-            </Modal.Content>
-          </Modal> */}
       </div>
     );
   }
@@ -132,12 +149,6 @@ class Issue extends React.Component {
     });
   }
 
-  handleIssueToChange(event) {
-    this.setState({
-      issueTo: event.target.value
-    });
-  }
-
   handleIssueValueChange(event) {
     this.setState({
       issueValue: event.target.value
@@ -151,6 +162,25 @@ class Issue extends React.Component {
       await this.props.inst.methods.issue(
         this.state.issueDestination,
         issueValueStr
+      ).send({
+        from: this.props.currentAccount
+      });
+    } catch(err) {
+      alert(err);
+    }
+  }
+
+  handleNewIssueMemberChange(event) {
+    this.setState({
+      newIssueMember: event.target.value
+    });
+  }
+
+  async handleAddToIssueListSubmit(event) {
+    event.preventDefault();
+    try {
+      await this.props.inst.methods.addToIssuelist(
+        this.state.newIssueMember
       ).send({
         from: this.props.currentAccount
       });
