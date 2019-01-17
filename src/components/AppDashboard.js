@@ -56,31 +56,51 @@ class AppDashboard extends React.Component {
         <Grid>
           <Grid.Column width={3}>
             <Menu fluid vertical pointing secondary>
-              <Menu.Item name='info' active={this.state.activeItem === 'info'} onClick={this.handleMenuClick}>Basic info</Menu.Item>
-              <Menu.Item name='usage' active={this.state.activeItem === 'usage'} onClick={this.handleMenuClick}>ERC20 Usage</Menu.Item>
+              <Menu.Item 
+                name='info' 
+                active={ this.state.activeItem === 'info' } 
+                onClick={ this.handleMenuClick }
+              >
+                Basic info
+              </Menu.Item>
+              <Menu.Item 
+                name='admin' 
+                active={ this.state.activeItem === 'admin' } 
+                onClick={ this.handleMenuClick }
+                disabled={ this.props.currentAccount !== this.state.owner }
+              >
+                Admin
+              </Menu.Item>
+              <Menu.Item
+                name='mint'
+                active={ this.state.activeItem === 'mint' }
+                onClick={ this.handleMenuClick }
+                disabled={ this.props.currentAccount !== this.state.owner }
+              >
+                Mint
+              </Menu.Item>
               <Menu.Item 
                 name='issue' 
                 active={ this.state.activeItem === 'issue' } 
                 onClick={ this.handleMenuClick } 
-                disabled={ this.props.currentAccount !== this.state.mintWallet }
+                disabled={ ![this.state.mintWallet && this.props.currentAccount].includes(this.props.currentAccount) }
               >
                 Issue
               </Menu.Item>
               <Menu.Item 
-                name='burn' 
-                active={ this.state.activeItem === 'burn' } 
+                name='recycle' 
+                active={ this.state.activeItem === 'recycle' } 
                 onClick={ this.handleMenuClick }
-                disabled={ this.props.currentAccount !== this.state.recycleWallet }
+                disabled={ ![this.state.recycleWallet && this.props.currentAccount].includes(this.props.currentAccount) }
               >
                 Recycle
               </Menu.Item>
               <Menu.Item 
-                name='admin' 
-                active={this.state.activeItem === 'admin'} 
+                name='usage' 
+                active={this.state.activeItem === 'usage'} 
                 onClick={this.handleMenuClick}
-                disabled={ this.props.currentAccount !== this.state.owner }
               >
-                Admin
+                ERC20 Usage
               </Menu.Item>
             </Menu>
           </Grid.Column>
