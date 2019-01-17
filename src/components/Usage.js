@@ -9,25 +9,25 @@ class Usage extends React.Component {
     this.state = {
       transferRecipient: '',
       transferAmount: '',
-      approveSpender: '',
-      approveAmount: '',
+      // approveSpender: '',
+      // approveAmount: '',
       queryAccount: '',
       balance: '',
-      allowanceOwner: '',
-      allowanceSpender: '',
-      allowance: ''
+      // allowanceOwner: '',
+      // allowanceSpender: '',
+      // allowance: ''
     }
     this.handleTransferRecipientChange = this.handleTransferRecipientChange.bind(this);
     this.handleTransferAmountChange = this.handleTransferAmountChange.bind(this);
     this.handleTransferSubmit = this.handleTransferSubmit.bind(this);
-    this.handleApproveSpenderChange = this.handleApproveSpenderChange.bind(this);
-    this.handleApproveAmountChange = this.handleApproveAmountChange.bind(this);
-    this.handleApproveSubmit = this.handleApproveSubmit.bind(this);
+    // this.handleApproveSpenderChange = this.handleApproveSpenderChange.bind(this);
+    // this.handleApproveAmountChange = this.handleApproveAmountChange.bind(this);
+    // this.handleApproveSubmit = this.handleApproveSubmit.bind(this);
     this.handleQueryAccountChange = this.handleQueryAccountChange.bind(this);
     this.handleBalanceSubmit = this.handleBalanceSubmit.bind(this);
-    this.handleAllowanceOwnerChange = this.handleAllowanceOwnerChange.bind(this);
-    this.handleAllowanceSpenderChange = this.handleAllowanceSpenderChange.bind(this);
-    this.handleAllowanceSubmit = this.handleAllowanceSubmit.bind(this);
+    // this.handleAllowanceOwnerChange = this.handleAllowanceOwnerChange.bind(this);
+    // this.handleAllowanceSpenderChange = this.handleAllowanceSpenderChange.bind(this);
+    // this.handleAllowanceSubmit = this.handleAllowanceSubmit.bind(this);
   }
 
   render() {
@@ -38,12 +38,11 @@ class Usage extends React.Component {
           <h3>ERC20 Usage</h3>
           <br />
           {
-            isSpecialAccount ?   
+            isSpecialAccount &&   
             <Message info>
               <Message.Header>Special account?</Message.Header>
-              <p>Do not transfer or approve being as a special account!</p>
-            </Message> : 
-            null
+              <p>No transfer operation being a special account!</p>
+            </Message>
           }
           <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={ isSpecialAccount }>Token Transfer</Button>}>
             <Modal.Header>Token Transfer</Modal.Header>
@@ -68,7 +67,7 @@ class Usage extends React.Component {
             </Modal.Content>
           </Modal>
           <br />
-          <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={ isSpecialAccount }>Approve</Button>}>
+          {/* <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={ isSpecialAccount }>Approve</Button>}>
             <Modal.Header>Token Transfer</Modal.Header>
             <Modal.Content>
               <Form onSubmit={ this.handleApproveSubmit }>
@@ -90,7 +89,7 @@ class Usage extends React.Component {
               </Form>
             </Modal.Content>
           </Modal>
-          <br />
+          <br /> */}
           <Modal trigger={<Button className="form-row center-button" size="large" color="teal" fluid>Check Balance</Button>}>
             <Modal.Header>Check Balance</Modal.Header>
             <Modal.Content>
@@ -112,7 +111,7 @@ class Usage extends React.Component {
               }
             </Modal.Content>
           </Modal>
-          <br />
+          {/* <br />
           <Modal trigger={<Button className="form-row center-button" size="large" color="teal" fluid>Check Allowance</Button>}>
             <Modal.Header>Check Allowance</Modal.Header>
             <Modal.Content>
@@ -140,7 +139,7 @@ class Usage extends React.Component {
                 </Message> : null
               }
             </Modal.Content>
-          </Modal>
+          </Modal> */}
         </Segment>
       </div>
     );
@@ -173,32 +172,32 @@ class Usage extends React.Component {
     }
   }
 
-  handleApproveSpenderChange(event) {
-    this.setState({
-      approveSpender: event.target.value
-    });
-  }
+  // handleApproveSpenderChange(event) {
+  //   this.setState({
+  //     approveSpender: event.target.value
+  //   });
+  // }
 
-  handleApproveAmountChange(event) {
-    this.setState({
-      approveAmount: event.target.value
-    });
-  }
+  // handleApproveAmountChange(event) {
+  //   this.setState({
+  //     approveAmount: event.target.value
+  //   });
+  // }
 
-  async handleApproveSubmit(event) {
-    event.preventDefault();
-    const amountStr= web3.utils.toWei(this.state.approveAmount, 'mwei').toString();
-    try {
-      await this.props.inst.methods.approve(
-        this.state.approveSpender, 
-        amountStr
-      ).send({
-        from: this.props.currentAccount
-      });
-    } catch(err) {
-      alert(err);
-    }
-  }
+  // async handleApproveSubmit(event) {
+  //   event.preventDefault();
+  //   const amountStr= web3.utils.toWei(this.state.approveAmount, 'mwei').toString();
+  //   try {
+  //     await this.props.inst.methods.approve(
+  //       this.state.approveSpender, 
+  //       amountStr
+  //     ).send({
+  //       from: this.props.currentAccount
+  //     });
+  //   } catch(err) {
+  //     alert(err);
+  //   }
+  // }
 
   handleQueryAccountChange(event) {
     this.setState({
@@ -220,32 +219,32 @@ class Usage extends React.Component {
     });
   }
 
-  handleAllowanceOwnerChange(event) {
-    this.setState({
-      allowanceOwner: event.target.value,
-      allowance: ''
-    });
-  }
+  // handleAllowanceOwnerChange(event) {
+  //   this.setState({
+  //     allowanceOwner: event.target.value,
+  //     allowance: ''
+  //   });
+  // }
 
-  handleAllowanceSpenderChange(event) {
-    this.setState({
-      allowanceSpender: event.target.value,
-      allowance: ''
-    });
-  }
+  // handleAllowanceSpenderChange(event) {
+  //   this.setState({
+  //     allowanceSpender: event.target.value,
+  //     allowance: ''
+  //   });
+  // }
 
-  async handleAllowanceSubmit(event) {
-    event.preventDefault();
-    let allowance;
-    try {
-      allowance = await this.props.inst.methods.allowance(this.state.allowanceOwner, this.state.allowanceSpender).call();
-    } catch(err) {
-      alert(err);
-    }
-    this.setState({
-      allowance
-    });
-  }
+  // async handleAllowanceSubmit(event) {
+  //   event.preventDefault();
+  //   let allowance;
+  //   try {
+  //     allowance = await this.props.inst.methods.allowance(this.state.allowanceOwner, this.state.allowanceSpender).call();
+  //   } catch(err) {
+  //     alert(err);
+  //   }
+  //   this.setState({
+  //     allowance
+  //   });
+  // }
 }
 
 export default Usage;
