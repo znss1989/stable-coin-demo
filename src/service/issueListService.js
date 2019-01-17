@@ -23,7 +23,7 @@ const getLogsOnIssueList = async (contractAddress) => {
 
 const updateIssueList = (issueList, issueLogs) => {
   issueLogs.forEach(log => {
-    const address = log.topics[1].slice(26);
+    const address = "0x" + log.topics[1].slice(26);
     const location = issueList.indexOf(address);
     if (log.topics[0] === "0x7e9f640e400f5364816966f9eb3201dd5a6e7dbf356e683272cb0d208c6dfd82") { // add to issue list
       if (location === -1) {
@@ -37,10 +37,10 @@ const updateIssueList = (issueList, issueLogs) => {
   });
 };
 
-const fetchIssueList = async (contractName) => {
+const fetchIssueList = async (tokenSymbol) => {
   const issueList = [];
   // resolve contract address
-  const contractAddress = tokenAddresses[contractName];
+  const contractAddress = tokenAddresses[tokenSymbol];
   // fetch all event logs related to the issue list
   const issueLogs = await getLogsOnIssueList(contractAddress);
   // update and return the issue list

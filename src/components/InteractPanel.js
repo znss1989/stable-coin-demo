@@ -33,6 +33,7 @@ class InteractPanel extends React.Component {
         return (
           <Issue
             inst={ this.props.inst }
+            symbol={ this.props.symbol }
             currentAccount={ this.props.currentAccount }
             owner={ this.props.owner }
             mintWallet={ this.props.mintWallet }

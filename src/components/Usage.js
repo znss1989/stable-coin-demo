@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Button, Modal, Form, Message } from 'semantic-ui-react';
+import { Segment, Button, Modal, Form, Message, Divider } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
 import ConfirmPrompt from './ConfirmPrompt';
@@ -37,7 +37,7 @@ class Usage extends React.Component {
       <div>
         <Segment>
           <h3>ERC20 Usage</h3>
-          <br />
+          <Divider />
           {
             isSpecialAccount &&   
             <Message info>

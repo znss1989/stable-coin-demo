@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Grid, Form, Modal, Button, Message } from 'semantic-ui-react';
+import { Segment, Grid, Form, Modal, Button, Message, Divider } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
 import EtherscanLink from './EtherscanLink';
@@ -29,7 +29,7 @@ class Recycle extends React.Component {
       <div>
         <Segment>
           <h3>Recycle</h3>
-          <br />
+          <Divider />
           <Grid columns={2}>
             <Grid.Row>
               <Grid.Column width={12}>
