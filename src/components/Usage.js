@@ -65,16 +65,16 @@ class Usage extends React.Component {
                 </Form.Field>
                 {/* <Button className="form-row center-button" type="submit" primary fluid>Transfer</Button> */}
               </Form>
-              <Modal.Actions>
-                <ConfirmPrompt
-                  triggerText="Transfer"
-                  color="blue"
-                  handleConfirm={ this.handleTransferSubmit }
-                >
-                  <p>{ this.state.transferAmount } of { this.props.symbol } will be transfered to { this.state.transferRecipient }.</p>
-                </ConfirmPrompt>
-              </Modal.Actions>
             </Modal.Content>
+            <Modal.Actions>
+              <ConfirmPrompt
+                triggerText="Transfer"
+                color="blue"
+                handleConfirm={ this.handleTransferSubmit }
+              >
+                <p>{ this.state.transferAmount } of { this.props.symbol } will be transfered to { this.state.transferRecipient }.</p>
+              </ConfirmPrompt>
+            </Modal.Actions>
           </Modal>
           <br />
           {/* <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={ isSpecialAccount }>Approve</Button>}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Grid, Form, Modal, Button, GridColumn } from 'semantic-ui-react';
+import { Segment, Grid, Form, Modal, Button, Message } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
 import EtherscanLink from './EtherscanLink';
@@ -11,12 +11,15 @@ class Recycle extends React.Component {
     this.state = {
       recycleWallet: '',
       recycleValue: '',
-      burnValue: ''
+      burnValue: '',
+      readyToBurn: false
     }
     this.handleRecycleWalletChange = this.handleRecycleWalletChange.bind(this);
     this.handleSetRecycleWalletSubmit = this.handleSetRecycleWalletSubmit.bind(this);
     this.handleRecycleValueChange = this.handleRecycleValueChange.bind(this);
     this.handleRecycleSubmit = this.handleRecycleSubmit.bind(this);
+    this.countForBurn = this.countForBurn.bind(this);
+    this.resetCountForBurn = this.resetCountForBurn.bind(this);
     this.handleBurnValueChange = this.handleBurnValueChange.bind(this);
     this.handleBurnSubmit = this.handleBurnSubmit.bind(this);
   }
@@ -97,7 +100,16 @@ class Recycle extends React.Component {
                 <p className="text-display">Balance allowed to burn: &nbsp; { this.props.recycleWalletBalance }</p>
               </Grid.Column>
               <Grid.Column width={4}>
-                <Modal trigger={<Button className="form-row center-button" color="red" fluid>Burn</Button>}>
+                <Modal 
+                  trigger={
+                    <Button 
+                      className="form-row center-button" 
+                      color="red" 
+                      fluid
+                      onClick={ this.countForBurn }
+                    >Burn</Button>
+                  }
+                >
                   <Modal.Header>Burn</Modal.Header>
                   <Modal.Content>
                     <Form onSubmit={ this.handleBurnSubmit }>
@@ -108,17 +120,27 @@ class Recycle extends React.Component {
                         <input id="burn-value" type="text" name="burn-value" placeholder="Amount of tokens"
                           value={ this.state.burnValue } onChange={this.handleBurnValueChange } />
                       </Form.Field>
+                      {
+                        !this.state.readyToBurn &&
+                        <Message color="red">
+                          <p>Be careful! Tokens will disapear due to this operation.</p>
+                        </Message>
+                      }
                       {/* <Button className="form-row center-button" type="submit" color="red" fluid>Burn</Button> */}
                     </Form>
                   </Modal.Content>
                   <Modal.Actions>
-                    <ConfirmPrompt
-                      triggerText="Burn"
-                      color="red"
-                      handleConfirm={ this.handleRecycleSubmit }
-                    >
-                      <p>{ this.state.burnValue } of { this.props.symbol } will be burnt.</p>
-                    </ConfirmPrompt>
+                    {
+                      this.state.readyToBurn ?
+                        <ConfirmPrompt
+                        triggerText="Burn"
+                        color="red"
+                        handleConfirm={ this.handleRecycleSubmit }
+                      >
+                        <p>{ this.state.burnValue } of { this.props.symbol } will be burnt.</p>
+                      </ConfirmPrompt> :
+                      <Button className="form-row center-button confirm-trigger" type="submit" color="red" floated="right" disabled>Burn</Button>
+                    }
                   </Modal.Actions>
                 </Modal>
               </Grid.Column>
@@ -165,6 +187,20 @@ class Recycle extends React.Component {
     } catch(err) {
       alert(err);
     }
+  }
+
+  countForBurn() {
+    setInterval(() => {
+      this.setState({
+        readyToBurn: true
+      });
+    }, 7500);
+  }
+
+  resetCountForBurn() {
+    this.setState({
+      readyToBurn: false
+    });
   }
 
   handleBurnValueChange(event) {
