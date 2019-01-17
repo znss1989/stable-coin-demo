@@ -64,6 +64,9 @@ class Usage extends React.Component {
                 </Form.Field>
                 <Button className="form-row center-button" type="submit" primary fluid>Transfer</Button>
               </Form>
+              <Modal.Actions>
+                
+              </Modal.Actions>
             </Modal.Content>
           </Modal>
           <br />
