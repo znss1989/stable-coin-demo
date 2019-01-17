@@ -35,7 +35,7 @@ class Usage extends React.Component {
     return (
       <div>
         <Segment>
-          <h3>Usage</h3>
+          <h3>ERC20 Usage</h3>
           <br />
           {
             isSpecialAccount ?   

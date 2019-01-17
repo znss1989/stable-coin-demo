@@ -57,7 +57,7 @@ class AppDashboard extends React.Component {
           <Grid.Column width={3}>
             <Menu fluid vertical pointing secondary>
               <Menu.Item name='info' active={this.state.activeItem === 'info'} onClick={this.handleMenuClick}>Basic info</Menu.Item>
-              <Menu.Item name='usage' active={this.state.activeItem === 'usage'} onClick={this.handleMenuClick}>Usage</Menu.Item>
+              <Menu.Item name='usage' active={this.state.activeItem === 'usage'} onClick={this.handleMenuClick}>ERC20 Usage</Menu.Item>
               <Menu.Item 
                 name='issue' 
                 active={ this.state.activeItem === 'issue' } 
