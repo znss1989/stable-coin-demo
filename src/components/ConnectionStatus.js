@@ -16,8 +16,8 @@ const ConnectionStatus = (props) => {
             props.network.type ? 
               (
                 props.network.type.toUpperCase() === "RINKEBY" ? 
-                  <a>{props.network.type.toUpperCase()}<Icon name="check" color="green"></Icon></a> : 
-                  <a>{props.network.type.toUpperCase()}<Icon name="cancel" color="red"></Icon> (RINKEBY should be used)</a>
+                  <span>{props.network.type.toUpperCase()}<Icon name="check" color="green"></Icon></span> : 
+                  <span>{props.network.type.toUpperCase()}<Icon name="cancel" color="red"></Icon> (RINKEBY should be used)</span>
               ) : 
               '' 
           }
