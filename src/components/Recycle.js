@@ -109,6 +109,7 @@ class Recycle extends React.Component {
                       onClick={ this.countForBurn }
                     >Burn</Button>
                   }
+                  onUnmount={ this.resetCountForBurn }
                 >
                   <Modal.Header>Burn</Modal.Header>
                   <Modal.Content>
