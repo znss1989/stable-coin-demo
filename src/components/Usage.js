@@ -2,6 +2,7 @@ import React from 'react';
 import { Segment, Button, Modal, Form, Message } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
+import ConfirmPrompt from './ConfirmPrompt';
 
 class Usage extends React.Component {
   constructor(props) {
@@ -62,10 +63,16 @@ class Usage extends React.Component {
                   <input id="transfer-amount" type="text" name="transfer-amount" placeholder="Amount of tokens" 
                     value={ this.state.transferAmount } onChange={ this.handleTransferAmountChange } />
                 </Form.Field>
-                <Button className="form-row center-button" type="submit" primary fluid>Transfer</Button>
+                {/* <Button className="form-row center-button" type="submit" primary fluid>Transfer</Button> */}
               </Form>
               <Modal.Actions>
-                
+                <ConfirmPrompt
+                  triggerText="Transfer"
+                  color="blue"
+                  handleConfirm={ this.handleTransferSubmit }
+                >
+                  <p>{ this.state.transferAmount } of { this.props.symbol } will be transfered to { this.state.transferRecipient }.</p>
+                </ConfirmPrompt>
               </Modal.Actions>
             </Modal.Content>
           </Modal>

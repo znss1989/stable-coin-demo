@@ -9,16 +9,22 @@ class ConfirmPrompt extends React.Component {
       open: false
     };
     this.open = this.open.bind(this);
-    this.close = this.open.close(this);
+    this.close = this.close.bind(this);
   }
 
   render() {
     return (
       <Modal
         open={ this.state.open }
+        onOpen={ this.open }
+        onClose={ this.close }
         size='small'
         trigger={
-          <Button>
+          <Button
+            className="confirm-trigger"
+            floated="right"
+            color={ this.props.color }
+          >
             { this.props.triggerText }
           </Button>
         }

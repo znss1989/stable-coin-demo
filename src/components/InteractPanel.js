@@ -29,16 +29,6 @@ class InteractPanel extends React.Component {
             recycleWallet={ this.props.recycleWallet }
           />
         );
-      case 'usage':
-        return ( 
-          <Usage 
-            inst={this.props.inst}
-            currentAccount={ this.props.currentAccount }
-            owner={ this.props.owner }
-            mintWallet={ this.props.mintWallet }
-            recycleWallet={ this.props.recycleWallet }
-          />
-        );
       case 'issue':
         return (
           <Issue
@@ -49,10 +39,21 @@ class InteractPanel extends React.Component {
             recycleWallet={ this.props.recycleWallet }
           />
         );
-      case 'burn':
+      case 'recycle':
         return (
           <Recycle
             inst={ this.props.inst }
+            currentAccount={ this.props.currentAccount }
+            owner={ this.props.owner }
+            mintWallet={ this.props.mintWallet }
+            recycleWallet={ this.props.recycleWallet }
+          />
+        );
+      case 'usage':
+        return ( 
+          <Usage 
+            inst={ this.props.inst }
+            symbol={ this.props.symbol }
             currentAccount={ this.props.currentAccount }
             owner={ this.props.owner }
             mintWallet={ this.props.mintWallet }
