@@ -10,14 +10,14 @@ class Admin extends React.Component {
     this.state = {
       mintValue: '',
       mintWallet: '',
-      recycleWallet: ''
+      // recycleWallet: ''
     };
     this.handleMintValueChange = this.handleMintValueChange.bind(this);
     this.handleMintSubmit = this.handleMintSubmit.bind(this);
     this.handleMintWalletChange = this.handleMintWalletChange.bind(this);
     this.handleSetMintWalletSubmit = this.handleSetMintWalletSubmit.bind(this);
-    this.handleRecycleWalletChange = this.handleRecycleWalletChange.bind(this);
-    this.handleSetRecycleWalletSubmit = this.handleSetRecycleWalletSubmit.bind(this);
+    // this.handleRecycleWalletChange = this.handleRecycleWalletChange.bind(this);
+    // this.handleSetRecycleWalletSubmit = this.handleSetRecycleWalletSubmit.bind(this);
   }
 
   render() {
@@ -58,7 +58,7 @@ class Admin extends React.Component {
             </Form>
             </Modal.Content>
           </Modal>
-          <br />
+          {/* <br />
           <Modal trigger={<Button className="form-row center-button" size="large" primary fluid>Set Recycle Wallet</Button>}>
             <Modal.Header>Mint</Modal.Header>
             <Modal.Content>
@@ -73,7 +73,7 @@ class Admin extends React.Component {
                 <Button className="form-row center-button" type="submit" primary fluid>Set New Recycle Wallet</Button>
               </Form>
             </Modal.Content>
-          </Modal>
+          </Modal> */}
         </Segment>
       </div>
     );
@@ -118,24 +118,24 @@ class Admin extends React.Component {
     }
   }
 
-  handleRecycleWalletChange(event) {
-    this.setState({
-      recycleWallet: event.target.value
-    });
-  }
+  // handleRecycleWalletChange(event) {
+  //   this.setState({
+  //     recycleWallet: event.target.value
+  //   });
+  // }
 
-  async handleSetRecycleWalletSubmit(event) {
-    event.preventDefault();
-    try {
-      await this.props.inst.methods.setMintWallet(
-        this.state.recycleWallet
-      ).send({
-        from: this.props.currentAccount
-      });
-    } catch(err) {
-      alert(err);
-    }
-  }
+  // async handleSetRecycleWalletSubmit(event) {
+  //   event.preventDefault();
+  //   try {
+  //     await this.props.inst.methods.setMintWallet(
+  //       this.state.recycleWallet
+  //     ).send({
+  //       from: this.props.currentAccount
+  //     });
+  //   } catch(err) {
+  //     alert(err);
+  //   }
+  // }
 }
 
 export default Admin;

@@ -36,6 +36,14 @@ body {
   margin-bottom: 10px;
 }
 
+.text-display {
+  position: absolute;
+  margin: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 footer {
   color: #aaa;
 }
