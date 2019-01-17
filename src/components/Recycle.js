@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Grid, Form, Modal, Button } from 'semantic-ui-react';
+import { Segment, Grid, Form, Modal, Button, GridColumn } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
 import EtherscanLink from './EtherscanLink';
@@ -62,13 +62,13 @@ class Recycle extends React.Component {
             <br />
             <Grid.Row>
               <Grid.Column width={12}>
-                <p className="text-display">Balance in recycle wallet: &nbsp; { this.props.recycleWalletBalance }</p>
+                <p className="text-display">Balance allowed to recycle: &nbsp; { this.props.recycleWalletBalance }</p>
               </Grid.Column>
               <Grid.Column width={4}>
                 <Modal trigger={<Button className="form-row center-button" primary fluid>Recycle to Mint Wallet</Button>}>
                     <Modal.Header>Recycle to Mint Wallet</Modal.Header>
                     <Modal.Content>
-                      <Form onSubmit={ this.handleSetRecycleWalletSubmit }>
+                      <Form onSubmit={ this.handleRecycleSubmit }>
                         <Form.Field>
                           <label className="form-row" htmlFor="recycle-value">
                             Amount to recycle
@@ -91,27 +91,39 @@ class Recycle extends React.Component {
                   </Modal>              
               </Grid.Column>
             </Grid.Row>
+            <br />
+            <Grid.Row>
+              <Grid.Column width={12}>
+                <p className="text-display">Balance allowed to burn: &nbsp; { this.props.recycleWalletBalance }</p>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <Modal trigger={<Button className="form-row center-button" color="red" fluid>Burn</Button>}>
+                  <Modal.Header>Burn</Modal.Header>
+                  <Modal.Content>
+                    <Form onSubmit={ this.handleBurnSubmit }>
+                      <Form.Field>
+                        <label className="form-row" htmlFor="burn-value">
+                          Value to Burn
+                        </label>
+                        <input id="burn-value" type="text" name="burn-value" placeholder="Amount of tokens"
+                          value={ this.state.burnValue } onChange={this.handleBurnValueChange } />
+                      </Form.Field>
+                      {/* <Button className="form-row center-button" type="submit" color="red" fluid>Burn</Button> */}
+                    </Form>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <ConfirmPrompt
+                      triggerText="Burn"
+                      color="red"
+                      handleConfirm={ this.handleRecycleSubmit }
+                    >
+                      <p>{ this.state.burnValue } of { this.props.symbol } will be burnt.</p>
+                    </ConfirmPrompt>
+                  </Modal.Actions>
+                </Modal>
+              </Grid.Column>
+            </Grid.Row>
           </Grid>
-
-
-
-          <p>Recycle tokens to mint wallet</p>
-          <p>Burn tokens</p>
-          <Modal trigger={<Button className="form-row center-button" size="large" color="red" fluid disabled={this.props.currentAccount !== this.props.recycleWallet}>Burn</Button>}>
-            <Modal.Header>Burn</Modal.Header>
-            <Modal.Content>
-              <Form onSubmit={ this.handleBurnSubmit }>
-                <Form.Field>
-                  <label className="form-row" htmlFor="burn-value">
-                    Value to Burn
-                  </label>
-                  <input id="burn-value" type="text" name="burn-value" placeholder="Amount of tokens"
-                    value={ this.state.burnValue } onChange={this.handleBurnValueChange } />
-                </Form.Field>
-                <Button className="form-row center-button" type="submit" color="red" fluid>Burn</Button>
-              </Form>
-            </Modal.Content>
-          </Modal>
         </Segment>
       </div>
     );

@@ -8,7 +8,6 @@ import Admin from './Admin';
 
 class InteractPanel extends React.Component {
   render() {
-    console.log(this.props.recycleWalletBalance);
     switch (this.props.activeItem) {
       case 'info':
         return (
