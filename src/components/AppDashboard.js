@@ -20,7 +20,8 @@ class AppDashboard extends React.Component {
       contractAddress: '',
       owner: '',
       mintWallet: '',
-      recycleWallet: ''
+      recycleWallet: '',
+      recycleWalletBalance: ''
     };
     this.handleFiatSelect = this.handleFiatSelect.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -118,6 +119,7 @@ class AppDashboard extends React.Component {
                 owner={ this.state.owner }
                 mintWallet={ this.state.mintWallet }
                 recycleWallet={ this.state.recycleWallet }
+                recycleWalletBalance={ this.state.recycleWalletBalance}
                 currentAccount={ this.props.currentAccount }
               /> : 
               <Segment id="panel-loader-segment">
@@ -149,6 +151,7 @@ class AppDashboard extends React.Component {
     const owner = await tokenInstance.methods.owner().call();
     const mintWallet = await tokenInstance.methods.mintWallet().call();
     const recycleWallet = await tokenInstance.methods.recycleWallet().call();
+    const recycleWalletBalance = await tokenInstance.methods.balanceOf(recycleWallet).call();
     this.setState({
       ready: true,
       token: name,
@@ -160,7 +163,8 @@ class AppDashboard extends React.Component {
       contractAddress,
       owner,
       mintWallet,
-      recycleWallet
+      recycleWallet,
+      recycleWalletBalance
     });
   }
 

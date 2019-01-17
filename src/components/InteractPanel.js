@@ -8,6 +8,7 @@ import Admin from './Admin';
 
 class InteractPanel extends React.Component {
   render() {
+    console.log(this.props.recycleWalletBalance);
     switch (this.props.activeItem) {
       case 'info':
         return (
@@ -43,10 +44,12 @@ class InteractPanel extends React.Component {
         return (
           <Recycle
             inst={ this.props.inst }
+            symbol={ this.props.symbol }
             currentAccount={ this.props.currentAccount }
             owner={ this.props.owner }
             mintWallet={ this.props.mintWallet }
             recycleWallet={ this.props.recycleWallet }
+            recycleWalletBalance={ this.props.recycleWalletBalance }
           />
         );
       case 'usage':

@@ -10,10 +10,13 @@ class Recycle extends React.Component {
     super(props);
     this.state = {
       recycleWallet: '',
+      recycleValue: '',
       burnValue: ''
     }
     this.handleRecycleWalletChange = this.handleRecycleWalletChange.bind(this);
     this.handleSetRecycleWalletSubmit = this.handleSetRecycleWalletSubmit.bind(this);
+    this.handleRecycleValueChange = this.handleRecycleValueChange.bind(this);
+    this.handleRecycleSubmit = this.handleRecycleSubmit.bind(this);
     this.handleBurnValueChange = this.handleBurnValueChange.bind(this);
     this.handleBurnSubmit = this.handleBurnSubmit.bind(this);
   }
@@ -27,38 +30,71 @@ class Recycle extends React.Component {
           <Grid columns={2}>
             <Grid.Row>
               <Grid.Column width={12}>
-                <p className="text-display">Current recycle wallet &nbsp;&nbsp; <EtherscanLink address={ this.props.recycleWallet } /></p>
+                <p className="text-display">Current recycle wallet &nbsp; <EtherscanLink address={ this.props.recycleWallet } /></p>
               </Grid.Column>
               <Grid.Column width={4}>
-              <Modal trigger={<Button className="form-row center-button" primary fluid>Set Recycle Wallet</Button>}>
-                <Modal.Header>Mint</Modal.Header>
-                <Modal.Content>
-                  <Form onSubmit={ this.handleSetRecycleWalletSubmit}>
-                    <Form.Field>
-                      <label className="form-row" htmlFor="recycle-wallet">
-                        New Recycle Wallet
-                      </label>
-                      <input id="recycle-wallet" type="text" name="recycle-wallet" placeholder="0x123..."
-                        value={this.state.recycleWallet} onChange={ this.handleRecycleWalletChange } />
-                    </Form.Field>
-                    {/* <Button className="form-row center-button" type="submit" primary fluid>Set New Recycle Wallet</Button> */}
-                  </Form>
-                </Modal.Content>
-                <Modal.Actions>
-                  <ConfirmPrompt
-                    triggerText="Set new recycle wallet"
-                    color="blue"
-                    handleConfirm={ this.handleSetRecycleWalletSubmit }
-                  >
-                    <p>The recycle wallet will be set from { this.props.recycleWallet } to { this.state.recycleWallet }.</p>
-                  </ConfirmPrompt>
-                </Modal.Actions>
-              </Modal>
+                <Modal trigger={<Button className="form-row center-button" primary fluid>Set Recycle Wallet</Button>}>
+                  <Modal.Header>Set Recycle Wallet</Modal.Header>
+                  <Modal.Content>
+                    <Form onSubmit={ this.handleSetRecycleWalletSubmit}>
+                      <Form.Field>
+                        <label className="form-row" htmlFor="recycle-wallet">
+                          New Recycle Wallet
+                        </label>
+                        <input id="recycle-wallet" type="text" name="recycle-wallet" placeholder="0x123..."
+                          value={this.state.recycleWallet} onChange={ this.handleRecycleWalletChange } />
+                      </Form.Field>
+                      {/* <Button className="form-row center-button" type="submit" primary fluid>Set New Recycle Wallet</Button> */}
+                    </Form>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <ConfirmPrompt
+                      triggerText="Set new recycle wallet"
+                      color="blue"
+                      handleConfirm={ this.handleSetRecycleWalletSubmit }
+                    >
+                      <p>The recycle wallet will be set from { this.props.recycleWallet } to { this.state.recycleWallet }.</p>
+                    </ConfirmPrompt>
+                  </Modal.Actions>
+                </Modal>
               </Grid.Column>
             </Grid.Row>
             <br />
+            <Grid.Row>
+              <Grid.Column width={12}>
+                <p className="text-display">Balance in recycle wallet: &nbsp; { this.props.recycleWalletBalance }</p>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <Modal trigger={<Button className="form-row center-button" primary fluid>Recycle to Mint Wallet</Button>}>
+                    <Modal.Header>Recycle to Mint Wallet</Modal.Header>
+                    <Modal.Content>
+                      <Form onSubmit={ this.handleSetRecycleWalletSubmit }>
+                        <Form.Field>
+                          <label className="form-row" htmlFor="recycle-value">
+                            Amount to recycle
+                          </label>
+                          <input id="recycle-value" type="text" name="recycle-value" placeholder="Amount of tokens"
+                            value={ this.state.recycleValue } onChange={ this.handleRecycleValueChange } />
+                        </Form.Field>
+                        {/* <Button className="form-row center-button" type="submit" primary fluid>Set New Recycle Wallet</Button> */}
+                      </Form>
+                    </Modal.Content>
+                    <Modal.Actions>
+                      <ConfirmPrompt
+                        triggerText="Recycle to Mint Wallet"
+                        color="blue"
+                        handleConfirm={ this.handleRecycleSubmit }
+                      >
+                        <p>{ this.state.recycleValue } of { this.props.symbol } will be recycled to the mint wallet.</p>
+                      </ConfirmPrompt>
+                    </Modal.Actions>
+                  </Modal>              
+              </Grid.Column>
+            </Grid.Row>
           </Grid>
-          <p>Set recycle wallet</p>
+
+
+
           <p>Recycle tokens to mint wallet</p>
           <p>Burn tokens</p>
           <Modal trigger={<Button className="form-row center-button" size="large" color="red" fluid disabled={this.props.currentAccount !== this.props.recycleWallet}>Burn</Button>}>
@@ -92,6 +128,25 @@ class Recycle extends React.Component {
     try {
       await this.props.inst.methods.setMintWallet(
         this.state.recycleWallet
+      ).send({
+        from: this.props.currentAccount
+      });
+    } catch(err) {
+      alert(err);
+    }
+  }
+
+  handleRecycleValueChange(event) {
+    this.setState({
+      recycleValue: event.target.value
+    });
+  }
+
+  async handleRecycleSubmit(event) {
+    event.preventDefault();
+    try {
+      await this.props.inst.methods.recycle(
+        this.state.recycleValue
       ).send({
         from: this.props.currentAccount
       });
