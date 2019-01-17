@@ -17,7 +17,6 @@ class InteractPanel extends React.Component {
             decimals={this.props.decimals}
             totalSupply={this.props.totalSupply}
             contractAddress={this.props.contractAddress}
-            owner={this.props.owner}
           />
         );
       case 'usage':

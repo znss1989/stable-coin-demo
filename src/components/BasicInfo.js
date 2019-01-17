@@ -11,7 +11,6 @@ const BasicInfo = (props) => {
       <Card fluid meta="Decimals" description={props.decimals} />
       <Card fluid meta="Total Supply of Tokens" description={props.totalSupply} />
       <Card fluid meta="Contract Address" description={<EtherscanLink address={props.contractAddress} />} />
-      <Card fluid meta="Owner" description={<EtherscanLink address={props.owner} />} />
     </div>
   );
 };
