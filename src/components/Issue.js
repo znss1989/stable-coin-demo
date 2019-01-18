@@ -14,7 +14,8 @@ class Issue extends React.Component {
       issueValue: '',
       issueDestination: '',
       issueList: [],
-      newIssueMember: ''
+      newIssueMember: '',
+      memberToDelete: ''
     }
     this.setIssueDestination = this.setIssueDestination.bind(this);
     this.resetIssueDestination = this.resetIssueDestination.bind(this);
@@ -22,13 +23,16 @@ class Issue extends React.Component {
     this.handleIssueSubmit = this.handleIssueSubmit.bind(this);
     this.handleNewIssueMemberChange = this.handleNewIssueMemberChange.bind(this);
     this.handleAddToIssueListSubmit = this.handleAddToIssueListSubmit.bind(this);
+    this.setMemberToDelete = this.setMemberToDelete.bind(this);
+    this.resetMemberToDelete = this.resetMemberToDelete.bind(this);
+    this.handleRemoveFromIssueList = this.handleRemoveFromIssueList.bind(this);
   }
 
   render() {
     const issueSegments = this.state.issueList.map(issueDestination => {
       return (
         <Grid.Row key={issueDestination}>
-          <Grid.Column width={4}>
+          <Grid.Column width={3}>
             <Modal 
               trigger={
                 <Button 
@@ -64,8 +68,34 @@ class Issue extends React.Component {
               </Modal.Actions>
             </Modal>            
           </Grid.Column>
-          <Grid.Column width={12}>
+          <Grid.Column width={10}>
             <p className="text-display">Destination address: &nbsp; <EtherscanLink address={ issueDestination } /></p>
+          </Grid.Column>
+          <Grid.Column width={3}>
+            <Modal 
+              trigger={
+                <Button 
+                  className="form-row center-button" 
+                  primary
+                  fluid
+                  onClick={ () => { this.setMemberToDelete(issueDestination) } }
+                >
+                  <Icon name="minus" />
+                </Button>
+              }
+              onUnmount={ this.resetMemberToDelete }
+            >
+              <Modal.Header>Remove from Issue List</Modal.Header>
+              <Modal.Actions>
+                <ConfirmPrompt
+                  triggerText="Remove"
+                  color="blue"
+                  handleConfirm={ this.handleRemoveFromIssueList }
+                >
+                  <p>{ this.state.memberToDelete } will be removed from the issue list.</p>
+                </ConfirmPrompt>
+              </Modal.Actions>
+            </Modal> 
           </Grid.Column>
         </Grid.Row>
       );
@@ -80,7 +110,9 @@ class Issue extends React.Component {
             <Grid>
               { issueSegments }
               <Grid.Row>
-                <Grid.Column width={4}>
+                <Grid.Column width={3}></Grid.Column>
+                <Grid.Column width={10}></Grid.Column>
+                <Grid.Column width={3}>
                   <Modal 
                     trigger={
                       <Button 
@@ -111,7 +143,7 @@ class Issue extends React.Component {
                         color="blue"
                         handleConfirm={ this.handleAddToIssueListSubmit }
                       >
-                        <p>{ this.state.issueValue } of { this.props.symbol } will be issued to.</p>
+                        <p>{ this.state.newIssueMember } will be added to the issue list.</p>
                       </ConfirmPrompt>
                     </Modal.Actions>
                   </Modal>
@@ -181,6 +213,31 @@ class Issue extends React.Component {
     try {
       await this.props.inst.methods.addToIssuelist(
         this.state.newIssueMember
+      ).send({
+        from: this.props.currentAccount
+      });
+    } catch(err) {
+      alert(err);
+    }
+  }
+
+  setMemberToDelete(memberAddress) {
+    this.setState({
+      memberToDelete: memberAddress
+    });
+  }
+
+  resetMemberToDelete() {
+    this.setState({
+      memberToDelete: ''
+    });
+  }
+
+  async handleRemoveFromIssueList(event) {
+    event.preventDefault();
+    try {
+      await this.props.inst.methods.removeFromIssuelist(
+        this.state.memberToDelete
       ).send({
         from: this.props.currentAccount
       });
