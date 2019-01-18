@@ -136,7 +136,7 @@ class Mint extends React.Component {
                     <Form onSubmit={ this.handleMintSubmit }>
                       <Form.Field>
                         <label className="form-row" htmlFor="mint-value">
-                          Amount to return
+                          Amount to mint
                         </label>
                         <input id="mint-value" type="text" name="mint-value" placeholder="Amount of tokens"
                           value={ this.state.mintValue } onChange={ this.handleMintValueChange } />

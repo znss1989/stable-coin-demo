@@ -11,7 +11,7 @@ class AppDashboard extends React.Component {
     this.state = {
       token: 'ToCNH',
       ready: false,
-      activeItem: 'mint',
+      activeItem: 'admin',
       inst: '',
       tokenName: '',
       symbol: '',
@@ -84,7 +84,7 @@ class AppDashboard extends React.Component {
                 name='issue' 
                 active={ this.state.activeItem === 'issue' } 
                 onClick={ this.handleMenuClick } 
-                disabled={ ![this.state.mintWallet && this.props.currentAccount].includes(this.props.currentAccount) }
+                disabled={ ![this.state.mintWallet && this.state.owner].includes(this.props.currentAccount) }
               >
                 Issue
               </Menu.Item>
@@ -92,7 +92,7 @@ class AppDashboard extends React.Component {
                 name='recycle' 
                 active={ this.state.activeItem === 'recycle' } 
                 onClick={ this.handleMenuClick }
-                disabled={ ![this.state.recycleWallet && this.props.currentAccount].includes(this.props.currentAccount) }
+                // disabled={ ![this.state.recycleWallet && this.state.owner].includes(this.props.currentAccount) }
               >
                 Recycle
               </Menu.Item>

@@ -25,8 +25,6 @@ const InteractPanel = (props) => {
           inst={ props.inst }
           currentAccount={ props.currentAccount }
           owner={ props.owner }
-          mintWallet={ props.mintWallet }
-          recycleWallet={ props.recycleWallet }
         />
       );
     case 'mint':
