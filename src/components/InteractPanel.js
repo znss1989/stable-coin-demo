@@ -38,6 +38,7 @@ const InteractPanel = (props) => {
           mintWallet={ props.mintWallet }
           mintWalletBalance={ props.mintWalletBalance}
           recycleWallet={ props.recycleWallet }
+          totalSupply={ props.totalSupply }
         />
       );
     case 'issue':

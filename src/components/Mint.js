@@ -10,18 +10,14 @@ class Mint extends React.Component {
     super(props);
     this.state = {
       mintWallet: '',
-      returnValue: '',
-      burnValue: '',
-      readyToBurn: false
+      mintValue: '',
     }
     this.handleMintWalletChange = this.handleMintWalletChange.bind(this);
     this.handleSetMintWalletSubmit = this.handleSetMintWalletSubmit.bind(this);
     this.handleReturnValueChange = this.handleReturnValueChange.bind(this);
-    this.handleFundReturnSubmit = this.handleFundReturnSubmit.bind(this);
-    this.countForBurn = this.countForBurn.bind(this);
-    this.resetCountForBurn = this.resetCountForBurn.bind(this);
-    this.handleBurnValueChange = this.handleBurnValueChange.bind(this);
-    this.handleBurnSubmit = this.handleBurnSubmit.bind(this);
+    this.handleFundReturnSubmit = this.handleMintSubmit.bind(this);
+    this.handleMintValueChange = this.handleMintValueChange.bind(this);
+    this.handleMintSubmit = this.handleMintSubmit.bind(this);
   }
 
   render() {
@@ -93,13 +89,13 @@ class Mint extends React.Component {
                 >
                   <Modal.Header>Fund Return to Recycle Wallet</Modal.Header>
                   <Modal.Content>
-                    <Form onSubmit={ this.handleFundReturnSubmit }>
+                    <Form onSubmit={ this.handleMintSubmit }>
                       <Form.Field>
-                        <label className="form-row" htmlFor="return-value">
+                        <label className="form-row" htmlFor="mint-value">
                           Amount to return
                         </label>
-                        <input id="return-value" type="text" name="return-value" placeholder="Amount of tokens"
-                          value={ this.state.returnValue } onChange={ this.handleReturnValueChange } />
+                        <input id="mint-value" type="text" name="mint-value" placeholder="Amount of tokens"
+                          value={ this.state.mintValue } onChange={ this.handleReturnValueChange } />
                       </Form.Field>
                       {/* <Button className="form-row center-button" type="submit" primary fluid>Return to Recycle Wallet</Button> */}
                     </Form>
@@ -108,9 +104,9 @@ class Mint extends React.Component {
                     <ConfirmPrompt
                       triggerText="Return to Recycle Wallet"
                       color="blue"
-                      handleConfirm={ this.handleFundReturnSubmit }
+                      handleConfirm={ this.handleMintSubmit }
                     >
-                      <p>{ this.state.returnValue } of { this.props.symbol } will be returned to the recycle wallet.</p>
+                      <p>{ this.state.mintValue } of { this.props.symbol } will be returned to the recycle wallet.</p>
                     </ConfirmPrompt>
                   </Modal.Actions>
                 </Modal>              
@@ -118,10 +114,10 @@ class Mint extends React.Component {
             </Grid.Row>
             <br />
 
-            {/* Burn */}
+            {/* Mint */}
             <Grid.Row>
               <Grid.Column width={12}>
-                <p className="text-display">Balance allowed to return: &nbsp; { this.props.mintWalletBalance }</p>
+                <p className="text-display">Current total supply: &nbsp; { this.props.totalSupply }</p>
               </Grid.Column>
               <Grid.Column width={4}>
                 <Modal 
@@ -131,30 +127,30 @@ class Mint extends React.Component {
                       primary 
                       fluid
                     >
-                      Fund return
+                      Mint
                     </Button>
                   }
                 >
-                  <Modal.Header>Fund Return to Recycle Wallet</Modal.Header>
+                  <Modal.Header>Mint Tokens</Modal.Header>
                   <Modal.Content>
-                    <Form onSubmit={ this.handleFundReturnSubmit }>
+                    <Form onSubmit={ this.handleMintSubmit }>
                       <Form.Field>
-                        <label className="form-row" htmlFor="return-value">
+                        <label className="form-row" htmlFor="mint-value">
                           Amount to return
                         </label>
-                        <input id="return-value" type="text" name="return-value" placeholder="Amount of tokens"
-                          value={ this.state.returnValue } onChange={ this.handleReturnValueChange } />
+                        <input id="mint-value" type="text" name="mint-value" placeholder="Amount of tokens"
+                          value={ this.state.mintValue } onChange={ this.handleMintValueChange } />
                       </Form.Field>
-                      {/* <Button className="form-row center-button" type="submit" primary fluid>Return to Recycle Wallet</Button> */}
+                      {/* <Button className="form-row center-button" type="submit" primary fluid>Mint to Mint Wallet</Button> */}
                     </Form>
                   </Modal.Content>
                   <Modal.Actions>
                     <ConfirmPrompt
-                      triggerText="Return to Recycle Wallet"
+                      triggerText="Mint"
                       color="blue"
-                      handleConfirm={ this.handleFundReturnSubmit }
+                      handleConfirm={ this.handleMintSubmit }
                     >
-                      <p>{ this.state.returnValue } of { this.props.symbol } will be returned to the recycle wallet.</p>
+                      <p>{ this.state.mintValue } of { this.props.symbol } will be minted to the mint wallet.</p>
                     </ConfirmPrompt>
                   </Modal.Actions>
                 </Modal>              
@@ -191,9 +187,9 @@ class Mint extends React.Component {
     });
   }
 
-  async handleFundReturnSubmit(event) {
+  async handleMintSubmit(event) {
     event.preventDefault();
-    const returnValueStr = web3.utils.toWei(this.state.returnValue, 'mwei').toString();
+    const returnValueStr = web3.utils.toWei(this.state.mintValue, 'mwei').toString();
     try {
       await this.props.inst.methods.fundReturn(
         returnValueStr
@@ -205,32 +201,18 @@ class Mint extends React.Component {
     }
   }
 
-  countForBurn() {
-    setInterval(() => {
-      this.setState({
-        readyToBurn: true
-      });
-    }, 7500);
-  }
-
-  resetCountForBurn() {
+  handleMintValueChange(event) {
     this.setState({
-      readyToBurn: false
+      mintValue: event.target.value
     });
   }
 
-  handleBurnValueChange(event) {
-    this.setState({
-      burnValue: event.target.value
-    });
-  }
-
-  async handleBurnSubmit(event) {
+  async handleMintSubmit(event) {
     event.preventDefault();
-    const burnValueStr = web3.utils.toWei(this.state.burnValue, 'mwei').toString();
+    const mintValueStr = web3.utils.toWei(this.state.mintValue, 'mwei').toString();
     try {
-      await this.props.inst.methods.burn(
-        burnValueStr
+      await this.props.inst.methods.mint(
+        mintValueStr
       ).send({
         from: this.props.currentAccount
       });
