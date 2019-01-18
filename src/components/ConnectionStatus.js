@@ -13,7 +13,7 @@ const ConnectionStatus = (props) => {
         <Grid.Column width={10}>
           Netowrk: 
           { 
-            props.network.type ? 
+            props.network ? 
               (
                 props.network.type.toUpperCase() === "RINKEBY" ? 
                   <span>{props.network.type.toUpperCase()}<Icon name="check" color="green"></Icon></span> : 
