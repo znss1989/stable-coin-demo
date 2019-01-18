@@ -76,7 +76,7 @@ class AppDashboard extends React.Component {
                 name='mint'
                 active={ this.state.activeItem === 'mint' }
                 onClick={ this.handleMenuClick }
-                disabled={ this.props.currentAccount !== this.state.owner }
+                // disabled={ ![this.state.mintWallet && this.state.owner].includes(this.props.currentAccount) }
               >
                 Mint
               </Menu.Item>
@@ -84,7 +84,7 @@ class AppDashboard extends React.Component {
                 name='issue' 
                 active={ this.state.activeItem === 'issue' } 
                 onClick={ this.handleMenuClick } 
-                // disabled={ ![this.state.mintWallet && this.state.owner].includes(this.props.currentAccount) }
+                disabled={ ![this.state.mintWallet && this.state.owner].includes(this.props.currentAccount) }
               >
                 Issue
               </Menu.Item>
