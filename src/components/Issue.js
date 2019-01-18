@@ -34,77 +34,105 @@ class Issue extends React.Component {
         <Grid.Row key={issueDestination}>
           {/* Issue to */}
           <Grid.Column width={3}>
-            <Modal 
-              trigger={
-                <Button 
-                  className="form-row center-button" 
+            {
+              this.props.currentAccount === this.props.mintWallet ?
+                <Modal
+                  trigger={
+                    <Button
+                      className="form-row center-button"
+                      primary
+                      fluid
+                      onClick={() => { this.setIssueDestination(issueDestination) }}
+                    >Issue to</Button>
+                  }
+                  onUnmount={this.resetIssueDestination}
+                >
+                  <Modal.Header>Issue to specific destination</Modal.Header>
+                  <Modal.Content>
+                    <Form onSubmit={this.handleIssueSubmit}>
+                      <Form.Field>
+                        <label className="form-row" htmlFor="issue-value">
+                          Value to Issue
+                        </label>
+                        <input id="issue-value" type="text" name="issue-value" placeholder="Amount of tokens"
+                          value={this.state.issueValue} onChange={this.handleIssueValueChange} />
+                      </Form.Field>
+                      {/* <Button className="form-row center-button" type="submit" color="red" fluid>Burn</Button> */}
+                    </Form>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <ConfirmPrompt
+                      triggerText="Issue"
+                      color="blue"
+                      handleConfirm={this.handleIssueSubmit}
+                    >
+                      <p>{this.state.issueValue} of {this.props.symbol} will be issued to {issueDestination}.</p>
+                    </ConfirmPrompt>
+                  </Modal.Actions>
+                </Modal> :
+                <Button
+                  className="form-row center-button"
                   primary
                   fluid
-                  onClick={ () => { this.setIssueDestination(issueDestination) } }
+                  onClick={() => { this.setIssueDestination(issueDestination) }}
+                  disabled
                 >Issue to</Button>
-              }
-              onUnmount={ this.resetIssueDestination }
-            >
-              <Modal.Header>Issue to specific destination</Modal.Header>
-              <Modal.Content>
-                <Form onSubmit={ this.handleIssueSubmit }>
-                  <Form.Field>
-                    <label className="form-row" htmlFor="issue-value">
-                      Value to Issue
-                    </label>
-                    <input id="issue-value" type="text" name="issue-value" placeholder="Amount of tokens"
-                      value={ this.state.issueValue } onChange={ this.handleIssueValueChange } />
-                  </Form.Field>
-                  {/* <Button className="form-row center-button" type="submit" color="red" fluid>Burn</Button> */}
-                </Form>
-              </Modal.Content>
-              <Modal.Actions>
-                <ConfirmPrompt
-                  triggerText="Issue"
-                  color="blue"
-                  handleConfirm={ this.handleIssueSubmit }
-                >
-                  <p>{ this.state.issueValue } of { this.props.symbol } will be issued to { issueDestination }.</p>
-                </ConfirmPrompt>
-              </Modal.Actions>
-            </Modal>            
+            }
+
           </Grid.Column>
 
           {/* Member of issue list */}
           <Grid.Column width={10}>
-            <p className="text-display">Destination address: &nbsp; <EtherscanLink address={ issueDestination } /></p>
+            <p className="text-display">Destination address: &nbsp; <EtherscanLink address={issueDestination} /></p>
           </Grid.Column>
 
           {/* Remove from issue list */}
           <Grid.Column width={3}>
-            <Modal 
-              trigger={
-                <Button 
-                  className="form-row center-button" 
+            {
+              this.props.currentAccount === this.props.owner ?
+                <Modal
+                  trigger={
+                    <Button
+                      className="form-row center-button"
+                      primary
+                      fluid
+                      onClick={
+                        () => {
+                          this.setMemberToDelete(issueDestination);
+                        }
+                      }
+                    >
+                      <Icon name="minus" />
+                    </Button>
+                  }
+                  onUnmount={this.resetMemberToDelete}
+                >
+                  <Modal.Header>Remove from Issue List</Modal.Header>
+                  <Modal.Actions>
+                    <ConfirmPrompt
+                      triggerText="Remove"
+                      color="blue"
+                      handleConfirm={this.handleRemoveFromIssueList}
+                    >
+                      <p>{this.state.memberToDelete} will be removed from the issue list.</p>
+                    </ConfirmPrompt>
+                  </Modal.Actions>
+                </Modal> :
+                <Button
+                  className="form-row center-button"
                   primary
                   fluid
                   onClick={
-                    () => { 
-                      this.setMemberToDelete(issueDestination); 
+                    () => {
+                      this.setMemberToDelete(issueDestination);
                     }
                   }
+                  disabled
                 >
                   <Icon name="minus" />
                 </Button>
-              }
-              onUnmount={ this.resetMemberToDelete }
-            >
-              <Modal.Header>Remove from Issue List</Modal.Header>
-              <Modal.Actions>
-                <ConfirmPrompt
-                  triggerText="Remove"
-                  color="blue"
-                  handleConfirm={ this.handleRemoveFromIssueList }
-                >
-                  <p>{ this.state.memberToDelete } will be removed from the issue list.</p>
-                </ConfirmPrompt>
-              </Modal.Actions>
-            </Modal> 
+            }
+
           </Grid.Column>
         </Grid.Row>
       );
@@ -113,58 +141,62 @@ class Issue extends React.Component {
       <div>
         {
           this.state.ready ?
-          <Segment>
-            <h3>Issue</h3>
-            <Divider />
-            <Grid>
-              { issueSegments }
-              <Grid.Row>
-                <Grid.Column width={3}></Grid.Column>
-                <Grid.Column width={10}></Grid.Column>
-                <Grid.Column width={3}>
-                  <Modal 
-                    trigger={
-                      <Button 
-                        className="form-row center-button" 
-                        primary
-                        fluid
+            <Segment>
+              <h3>Issue</h3>
+              <Divider />
+              <Grid>
+                {issueSegments}
+                {
+                  this.props.currentAccount === this.props.owner &&
+                  <Grid.Row>
+                    <Grid.Column width={3}></Grid.Column>
+                    <Grid.Column width={10}></Grid.Column>
+                    <Grid.Column width={3}>
+                      <Modal
+                        trigger={
+                          <Button
+                            className="form-row center-button"
+                            primary
+                            fluid
+                          >
+                            <Icon name="plus" />
+                          </Button>
+                        }
                       >
-                        <Icon name="plus" />
-                      </Button>
-                    }
-                  >
-                    <Modal.Header>Add to Issue List</Modal.Header>
-                    <Modal.Content>
-                      <Form onSubmit={ this.handleAddToIssueListSubmit }>
-                        <Form.Field>
-                          <label className="form-row" htmlFor="issue-member">
-                            New Member to Issue List
-                          </label>
-                          <input id="issue-member" type="text" name="issue-member" placeholder="0x123..."
-                            value={ this.state.newIssueMember } onChange={ this.handleNewIssueMemberChange } />
-                        </Form.Field>
-                        {/* <Button className="form-row center-button" type="submit" color="red" fluid>Burn</Button> */}
-                      </Form>
-                    </Modal.Content>
-                    <Modal.Actions>
-                      <ConfirmPrompt
-                        triggerText="Add to Issue List"
-                        color="blue"
-                        handleConfirm={ this.handleAddToIssueListSubmit }
-                      >
-                        <p>{ this.state.newIssueMember } will be added to the issue list.</p>
-                      </ConfirmPrompt>
-                    </Modal.Actions>
-                  </Modal>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Segment> :
-          <Segment id="panel-loader-segment">
-            <Dimmer active inverted>
-              <Loader inverted>Loading</Loader>
-            </Dimmer>
-          </Segment> 
+                        <Modal.Header>Add to Issue List</Modal.Header>
+                        <Modal.Content>
+                          <Form onSubmit={this.handleAddToIssueListSubmit}>
+                            <Form.Field>
+                              <label className="form-row" htmlFor="issue-member">
+                                New Member to Issue List
+                              </label>
+                              <input id="issue-member" type="text" name="issue-member" placeholder="0x123..."
+                                value={this.state.newIssueMember} onChange={this.handleNewIssueMemberChange} />
+                            </Form.Field>
+                            {/* <Button className="form-row center-button" type="submit" color="red" fluid>Burn</Button> */}
+                          </Form>
+                        </Modal.Content>
+                        <Modal.Actions>
+                          <ConfirmPrompt
+                            triggerText="Add to Issue List"
+                            color="blue"
+                            handleConfirm={this.handleAddToIssueListSubmit}
+                          >
+                            <p>{this.state.newIssueMember} will be added to the issue list.</p>
+                          </ConfirmPrompt>
+                        </Modal.Actions>
+                      </Modal>
+                    </Grid.Column>
+                  </Grid.Row>
+                }
+
+              </Grid>
+            </Segment> :
+            <Segment id="panel-loader-segment">
+              <Dimmer active inverted>
+                <Loader inverted>Loading</Loader>
+              </Dimmer>
+            </Segment>
         }
       </div>
     );
@@ -206,7 +238,7 @@ class Issue extends React.Component {
       ).send({
         from: this.props.currentAccount
       });
-    } catch(err) {
+    } catch (err) {
       alert(err);
     }
   }
@@ -225,7 +257,7 @@ class Issue extends React.Component {
       ).send({
         from: this.props.currentAccount
       });
-    } catch(err) {
+    } catch (err) {
       alert(err);
     }
   }
@@ -250,7 +282,7 @@ class Issue extends React.Component {
       ).send({
         from: this.props.currentAccount
       });
-    } catch(err) {
+    } catch (err) {
       alert(err);
     }
   }
