@@ -1,0 +1,21 @@
+New ERC20 assets@Rinkeby
+Date: 2019-01-18
+
+- ToCNH
+资产简称：ToCNH
+资产全称：Token of CNH
+资产地址：0x38164bcbe66008c2df83d26b93c84f2850fff4da
+支持小数位数：6
+
+- ToPHP
+资产简称：ToPHP
+资产全称：Token of PHP
+资产地址：0x2b7ab64bcce730b72f3fe667d3e45c3f51a5cbb2
+支持小数位数：6   
+
+- ToUSD
+资产简称：ToUSD
+资产全称：Token of USD
+资产地址：0x7bdae3cc59a20fa3de722ae9063bb0f48fd0b092
+支持小数位数：6
+

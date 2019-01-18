@@ -64,6 +64,7 @@ contract ToPHP {
 
     // OWNER DATA
     address public owner;
+    address public pendingOwner;
 
     // PAUSABILITY DATA
     bool public paused = false;
@@ -257,14 +258,28 @@ contract ToPHP {
     }
 
     /**
-     * @dev Allows the current owner to transfer control of the contract to a newOwner.
-     * @param _newOwner The address to transfer ownership to.
+     * @dev Modifier throws if called by any account other than the pendingOwner.
      */
-    function transferOwnership(address _newOwner) public onlyOwner {
-        require(_newOwner != address(0), "cannot transfer ownership to address zero");
+    modifier onlyPendingOwner() {
+        require(msg.sender == pendingOwner);
+        _;
+    }
 
-        emit OwnershipTransferred(owner, _newOwner);
-        owner = _newOwner;
+    /**
+     * @dev Allows the current owner to set the pendingOwner address.
+     * @param newOwner The address to transfer ownership to.
+     */
+    function transferOwnership(address newOwner) public onlyOwner {
+        pendingOwner = newOwner;
+    }
+
+    /**
+     * @dev Allows the pendingOwner address to finalize the transfer.
+     */
+    function claimOwnership() public onlyPendingOwner {
+        emit OwnershipTransferred(owner, pendingOwner);
+        owner = pendingOwner;
+        pendingOwner = address(0);
     }
 
     // PAUSABILITY FUNCTIONALITY
