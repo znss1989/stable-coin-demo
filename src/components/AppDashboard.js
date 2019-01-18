@@ -118,6 +118,7 @@ class AppDashboard extends React.Component {
                 contractAddress={ this.state.contractAddress }
                 owner={ this.state.owner }
                 mintWallet={ this.state.mintWallet }
+                mintWalletBalance={ this.state.mintWalletBalance }
                 recycleWallet={ this.state.recycleWallet }
                 recycleWalletBalance={ this.state.recycleWalletBalance}
                 currentAccount={ this.props.currentAccount }
@@ -150,6 +151,7 @@ class AppDashboard extends React.Component {
     const contractAddress = tokenInstance.options.address;
     const owner = await tokenInstance.methods.owner().call();
     const mintWallet = await tokenInstance.methods.mintWallet().call();
+    const mintWalletBalance = await tokenInstance.methods.balanceOf(mintWallet).call();
     const recycleWallet = await tokenInstance.methods.recycleWallet().call();
     const recycleWalletBalance = await tokenInstance.methods.balanceOf(recycleWallet).call();
     this.setState({
@@ -163,6 +165,7 @@ class AppDashboard extends React.Component {
       contractAddress,
       owner,
       mintWallet,
+      mintWalletBalance,
       recycleWallet,
       recycleWalletBalance
     });

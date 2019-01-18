@@ -195,9 +195,10 @@ class Recycle extends React.Component {
 
   async handleRecycleSubmit(event) {
     event.preventDefault();
+    const recycleValueStr = web3.utils.toWei(this.state.recycleValue, 'mwei').toString();
     try {
       await this.props.inst.methods.recycle(
-        this.state.recycleValue
+        recycleValueStr
       ).send({
         from: this.props.currentAccount
       });

@@ -36,6 +36,7 @@ const InteractPanel = (props) => {
           currentAccount={ props.currentAccount }
           owner={ props.owner }
           mintWallet={ props.mintWallet }
+          mintWalletBalance={ props.mintWalletBalance}
           recycleWallet={ props.recycleWallet }
         />
       );
