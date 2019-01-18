@@ -45,6 +45,7 @@ class Usage extends React.Component {
               <p>No transfer operation being a special account!</p>
             </Message>
           }
+          {/* Token transfer */}
           <Modal trigger={<Button className="form-row center-button" size="large" primary fluid disabled={ isSpecialAccount }>Token Transfer</Button>}>
             <Modal.Header>Token Transfer</Modal.Header>
             <Modal.Content>
@@ -100,6 +101,8 @@ class Usage extends React.Component {
             </Modal.Content>
           </Modal>
           <br /> */}
+
+          {/* Check balance */}
           <Modal trigger={<Button className="form-row center-button" size="large" color="teal" fluid>Check Balance</Button>}>
             <Modal.Header>Check Balance</Modal.Header>
             <Modal.Content>

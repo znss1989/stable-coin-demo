@@ -31,6 +31,7 @@ class Recycle extends React.Component {
           <h3>Recycle</h3>
           <Divider />
           <Grid columns={2}>
+            {/* Set recycle wallet */}
             <Grid.Row>
               <Grid.Column width={12}>
                 <p className="text-display">Current recycle wallet &nbsp; <EtherscanLink address={ this.props.recycleWallet } /></p>
@@ -63,6 +64,8 @@ class Recycle extends React.Component {
               </Grid.Column>
             </Grid.Row>
             <br />
+
+            {/* Recycle to mint wallet */}
             <Grid.Row>
               <Grid.Column width={12}>
                 <p className="text-display">Balance allowed to recycle: &nbsp; { this.props.recycleWalletBalance }</p>
@@ -95,6 +98,8 @@ class Recycle extends React.Component {
               </Grid.Column>
             </Grid.Row>
             <br />
+
+            {/* Burn */}
             <Grid.Row>
               <Grid.Column width={12}>
                 <p className="text-display">Balance allowed to burn: &nbsp; { this.props.recycleWalletBalance }</p>

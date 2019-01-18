@@ -32,6 +32,7 @@ class Issue extends React.Component {
     const issueSegments = this.state.issueList.map(issueDestination => {
       return (
         <Grid.Row key={issueDestination}>
+          {/* Issue to */}
           <Grid.Column width={3}>
             <Modal 
               trigger={
@@ -68,9 +69,13 @@ class Issue extends React.Component {
               </Modal.Actions>
             </Modal>            
           </Grid.Column>
+
+          {/* Member of issue list */}
           <Grid.Column width={10}>
             <p className="text-display">Destination address: &nbsp; <EtherscanLink address={ issueDestination } /></p>
           </Grid.Column>
+
+          {/* Remove from issue list */}
           <Grid.Column width={3}>
             <Modal 
               trigger={
@@ -78,7 +83,11 @@ class Issue extends React.Component {
                   className="form-row center-button" 
                   primary
                   fluid
-                  onClick={ () => { this.setMemberToDelete(issueDestination) } }
+                  onClick={
+                    () => { 
+                      this.setMemberToDelete(issueDestination); 
+                    }
+                  }
                 >
                   <Icon name="minus" />
                 </Button>
