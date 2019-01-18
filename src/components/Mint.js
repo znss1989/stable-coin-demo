@@ -5,17 +5,17 @@ import web3 from '../service/web3';
 import EtherscanLink from './EtherscanLink';
 import ConfirmPrompt from './ConfirmPrompt';
 
-class Recycle extends React.Component {
+class Mint extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recycleWallet: '',
+      mintWallet: '',
       recycleValue: '',
       burnValue: '',
       readyToBurn: false
     }
-    this.handleRecycleWalletChange = this.handleRecycleWalletChange.bind(this);
-    this.handleSetRecycleWalletSubmit = this.handleSetRecycleWalletSubmit.bind(this);
+    this.handleMintWalletChange = this.handleMintWalletChange.bind(this);
+    this.handleSetMintWalletSubmit = this.handleSetMintWalletSubmit.bind(this);
     this.handleRecycleValueChange = this.handleRecycleValueChange.bind(this);
     this.handleRecycleSubmit = this.handleRecycleSubmit.bind(this);
     this.countForBurn = this.countForBurn.bind(this);
@@ -28,47 +28,45 @@ class Recycle extends React.Component {
     return (
       <div>
         <Segment>
-          <h3>Recycle</h3>
+          <h3>Mint</h3>
           <Divider />
           <Grid columns={2}>
 
-            {/* Set recycle wallet */}
+            {/* Set mint wallet */}
             <Grid.Row>
               <Grid.Column width={12}>
-                <p className="text-display">Current recycle wallet &nbsp; <EtherscanLink address={ this.props.recycleWallet } /></p>
+                <p className="text-display">Current mint wallet &nbsp; <EtherscanLink address={ this.props.mintWallet } /></p>
               </Grid.Column>
               <Grid.Column width={4}>
-                <Modal 
-                  trigger={
-                    <Button 
-                      className="form-row center-button" 
-                      primary 
-                      fluid
-                    >
-                      Set Recycle Wallet
-                    </Button>
-                  }
-                >
-                  <Modal.Header>Set Recycle Wallet</Modal.Header>
+                <Modal trigger={
+                  <Button 
+                    className="form-row center-button" 
+                    primary 
+                    fluid
+                  >
+                    Set Mint Wallet
+                  </Button>
+                }>
+                  <Modal.Header>Set Mint Wallet</Modal.Header>
                   <Modal.Content>
-                    <Form onSubmit={ this.handleSetRecycleWalletSubmit}>
+                    <Form onSubmit={ this.handleSetMintWalletSubmit }>
                       <Form.Field>
-                        <label className="form-row" htmlFor="recycle-wallet">
-                          New Recycle Wallet
+                        <label className="form-row" htmlFor="mint-wallet">
+                          New Mint Wallet
                         </label>
-                        <input id="recycle-wallet" type="text" name="recycle-wallet" placeholder="0x123..."
-                          value={this.state.recycleWallet} onChange={ this.handleRecycleWalletChange } />
+                        <input id="mint-wallet" type="text" name="mint-wallet" placeholder="0x123..."
+                          value={this.state.mintWallet} onChange={ this.handleMintWalletChange } />
                       </Form.Field>
-                      {/* <Button className="form-row center-button" type="submit" primary fluid>Set New Recycle Wallet</Button> */}
+                      {/* <Button className="form-row center-button" type="submit" primary fluid>Set New Mint Wallet</Button> */}
                     </Form>
                   </Modal.Content>
                   <Modal.Actions>
                     <ConfirmPrompt
-                      triggerText="Set new recycle wallet"
+                      triggerText="Set new mint wallet"
                       color="blue"
-                      handleConfirm={ this.handleSetRecycleWalletSubmit }
+                      handleConfirm={ this.handleSetMintWalletSubmit }
                     >
-                      <p>The recycle wallet will be set from { this.props.recycleWallet } to { this.state.recycleWallet }.</p>
+                      <p>The mint wallet will be set from { this.props.mintWallet } to { this.state.mintWallet }.</p>
                     </ConfirmPrompt>
                   </Modal.Actions>
                 </Modal>
@@ -168,17 +166,17 @@ class Recycle extends React.Component {
     );
   }
 
-  handleRecycleWalletChange(event) {
+  handleMintWalletChange(event) {
     this.setState({
-      recycleWallet: event.target.value
+      mintWallet: event.target.value
     });
   }
 
-  async handleSetRecycleWalletSubmit(event) {
+  async handleSetMintWalletSubmit(event) {
     event.preventDefault();
     try {
-      await this.props.inst.methods.setRecycleWallet(
-        this.state.recycleWallet
+      await this.props.inst.methods.setMintWallet(
+        this.state.mintWallet
       ).send({
         from: this.props.currentAccount
       });
@@ -241,4 +239,4 @@ class Recycle extends React.Component {
   }
 }
 
-export default Recycle;
+export default Mint;
