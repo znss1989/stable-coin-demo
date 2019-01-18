@@ -11,7 +11,7 @@ class AppDashboard extends React.Component {
     this.state = {
       token: 'ToCNH',
       ready: false,
-      activeItem: 'admin',
+      activeItem: 'info',
       inst: '',
       tokenName: '',
       symbol: '',
@@ -36,19 +36,22 @@ class AppDashboard extends React.Component {
           <Button 
             positive={ this.state.token === 'ToCNH' } 
             name="ToCNH"
-            onClick={this.handleFiatSelect}
+            onClick={ this.handleFiatSelect }
+            disabled={ !this.state.ready }
           >ToCNH</Button>
           <Button.Or />
           <Button 
             positive={ this.state.token === 'ToPHP' } 
             name="ToPHP"
             onClick={this.handleFiatSelect}
+            disabled={ !this.state.ready }
           >ToPHP</Button>
           <Button.Or />
           <Button 
             positive={ this.state.token === 'ToUSD' } 
             name="ToUSD"
             onClick={this.handleFiatSelect}
+            disabled={ !this.state.ready }
           >ToUSD</Button>
         </Button.Group>
         <br />
@@ -174,7 +177,8 @@ class AppDashboard extends React.Component {
   async handleFiatSelect(event, { name }) {
     event.preventDefault();
     this.setState({
-      ready: false
+      ready: false,
+      activeItem: 'info'
     });
     this.fetchData(name);
   }
