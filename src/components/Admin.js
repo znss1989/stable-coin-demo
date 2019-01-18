@@ -29,38 +29,52 @@ class Admin extends React.Component {
                 <p className="text-display">Current owner &nbsp; <EtherscanLink address={ this.props.owner } /></p>
               </Grid.Column>
               <Grid.Column width={4}>
-                <Modal trigger={
-                  <Button 
-                    className="form-row center-button" 
-                    primary 
-                    fluid
-                  >
-                    Set New Owner
-                  </Button>
-                }>
-                  <Modal.Header>Set New Owner</Modal.Header>
-                  <Modal.Content>
-                    <Form onSubmit={ this.handleSetNewOwnerSubmit }>
-                      <Form.Field>
-                        <label className="form-row" htmlFor="mint-wallet">
-                          New Owner
-                        </label>
-                        <input id="mint-wallet" type="text" name="mint-wallet" placeholder="0x123..."
-                          value={this.state.newOwner} onChange={ this.handleNewOwnerChange } />
-                      </Form.Field>
-                      {/* <Button className="form-row center-button" type="submit" primary fluid>Set New Mint Wallet</Button> */}
-                    </Form>
-                  </Modal.Content>
-                  <Modal.Actions>
-                    <ConfirmPrompt
-                      triggerText="Set new owner"
-                      color="blue"
-                      handleConfirm={ this.handleSetNewOwnerSubmit }
+                {
+                  this.props.currentAccount === this.props.owner ?
+                    <Modal 
+                      trigger={
+                        <Button 
+                          className="form-row center-button" 
+                          primary 
+                          fluid
+                        >
+                          Set New Owner
+                        </Button>
+                      }
                     >
-                      <p>The contract owner will be set from { this.props.owner } to { this.state.newOwner }.</p>
-                    </ConfirmPrompt>
-                  </Modal.Actions>
-                </Modal>
+                      <Modal.Header>Set New Owner</Modal.Header>
+                      <Modal.Content>
+                        <Form onSubmit={ this.handleSetNewOwnerSubmit }>
+                          <Form.Field>
+                            <label className="form-row" htmlFor="mint-wallet">
+                              New Owner
+                            </label>
+                            <input id="mint-wallet" type="text" name="mint-wallet" placeholder="0x123..."
+                              value={this.state.newOwner} onChange={ this.handleNewOwnerChange } />
+                          </Form.Field>
+                          {/* <Button className="form-row center-button" type="submit" primary fluid>Set New Mint Wallet</Button> */}
+                        </Form>
+                      </Modal.Content>
+                      <Modal.Actions>
+                        <ConfirmPrompt
+                          triggerText="Set new owner"
+                          color="blue"
+                          handleConfirm={ this.handleSetNewOwnerSubmit }
+                        >
+                          <p>The contract owner will be set from { this.props.owner } to { this.state.newOwner }.</p>
+                        </ConfirmPrompt>
+                      </Modal.Actions>
+                    </Modal> :
+                    <Button 
+                      className="form-row center-button" 
+                      primary 
+                      fluid
+                      disabled
+                    >
+                      Set New Owner
+                    </Button>
+                }
+
               </Grid.Column>
             </Grid.Row>
           </Grid>
