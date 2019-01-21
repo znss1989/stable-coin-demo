@@ -230,8 +230,12 @@ class Issue extends React.Component {
 
   async handleIssueSubmit(event) {
     event.preventDefault();
-    const issueValueStr = web3.utils.toWei(this.state.issueValue, 'mwei').toString();
+    if (!this.state.issueValue) {
+      alert("No input provided!");
+      return;
+    }
     try {
+      const issueValueStr = web3.utils.toWei(this.state.issueValue, 'mwei').toString();
       await this.props.inst.methods.issue(
         this.state.issueDestination,
         issueValueStr
@@ -251,6 +255,10 @@ class Issue extends React.Component {
 
   async handleAddToIssueListSubmit(event) {
     event.preventDefault();
+    if (!this.state.newIssueMember) {
+      alert("No input provided!");
+      return;
+    }
     try {
       await this.props.inst.methods.addToIssuelist(
         this.state.newIssueMember
@@ -276,6 +284,10 @@ class Issue extends React.Component {
 
   async handleRemoveFromIssueList(event) {
     event.preventDefault();
+    if (!this.state.memberToDelete) {
+      alert("No input provided!");
+      return;
+    }
     try {
       await this.props.inst.methods.removeFromIssuelist(
         this.state.memberToDelete

@@ -172,8 +172,12 @@ class Usage extends React.Component {
 
   async handleTransferSubmit(event) {
     event.preventDefault();
-    const amountStr= web3.utils.toWei(this.state.transferAmount, 'mwei').toString();
+    if (!this.state.transferRecipient) {
+      alert("No input provided!");
+      return;
+    }
     try {
+      const amountStr= web3.utils.toWei(this.state.transferAmount, 'mwei').toString();
       await this.props.inst.methods.transfer(
         this.state.transferRecipient, 
         amountStr
@@ -222,6 +226,10 @@ class Usage extends React.Component {
   async handleBalanceSubmit(event) {
     event.preventDefault();
     let balance;
+    if (!this.state.queryAccount) {
+      alert("No input provided!");
+      return;
+    }
     try {
       balance = await this.props.inst.methods.balanceOf(this.state.queryAccount).call();
     } catch(err) {

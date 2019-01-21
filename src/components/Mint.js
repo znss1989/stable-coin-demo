@@ -11,11 +11,12 @@ class Mint extends React.Component {
     this.state = {
       mintWallet: '',
       mintValue: '',
+      returnValue: ''
     }
     this.handleMintWalletChange = this.handleMintWalletChange.bind(this);
     this.handleSetMintWalletSubmit = this.handleSetMintWalletSubmit.bind(this);
     this.handleReturnValueChange = this.handleReturnValueChange.bind(this);
-    this.handleFundReturnSubmit = this.handleMintSubmit.bind(this);
+    this.handleFundReturnSubmit = this.handleFundReturnSubmit.bind(this);
     this.handleMintValueChange = this.handleMintValueChange.bind(this);
     this.handleMintSubmit = this.handleMintSubmit.bind(this);
   }
@@ -86,7 +87,11 @@ class Mint extends React.Component {
             {/* Fund return to recycle wallet */}
             <Grid.Row>
               <Grid.Column width={12}>
-                <p className="text-display">Balance allowed to return: &nbsp; {this.props.mintWalletBalance}</p>
+                <p className="text-display">Balance allowed to return: &nbsp; 
+                  {
+                    web3.utils.fromWei(this.props.mintWalletBalance, 'mwei').toString()
+                  }
+                </p>
               </Grid.Column>
               <Grid.Column width={4}>
                 {
@@ -104,13 +109,13 @@ class Mint extends React.Component {
                     >
                       <Modal.Header>Fund Return to Recycle Wallet</Modal.Header>
                       <Modal.Content>
-                        <Form onSubmit={this.handleMintSubmit}>
+                        <Form onSubmit={this.handleFundReturnSubmit}>
                           <Form.Field>
-                            <label className="form-row" htmlFor="mint-value">
+                            <label className="form-row" htmlFor="return-value">
                               Amount to return
                         </label>
-                            <input id="mint-value" type="text" name="mint-value" placeholder="Amount of tokens"
-                              value={this.state.mintValue} onChange={this.handleReturnValueChange} />
+                            <input id="return-value" type="text" name="return-value" placeholder="Amount of tokens"
+                              value={this.state.returnValue} onChange={this.handleReturnValueChange} />
                           </Form.Field>
                           {/* <Button className="form-row center-button" type="submit" primary fluid>Return to Recycle Wallet</Button> */}
                         </Form>
@@ -119,9 +124,9 @@ class Mint extends React.Component {
                         <ConfirmPrompt
                           triggerText="Return to Recycle Wallet"
                           color="blue"
-                          handleConfirm={this.handleMintSubmit}
+                          handleConfirm={this.handleFundReturnSubmit}
                         >
-                          <p>{this.state.mintValue} of {this.props.symbol} will be returned to the recycle wallet.</p>
+                          <p>{this.state.returnValue} of {this.props.symbol} will be returned to the recycle wallet.</p>
                         </ConfirmPrompt>
                       </Modal.Actions>
                     </Modal> :
@@ -142,7 +147,11 @@ class Mint extends React.Component {
             {/* Mint */}
             <Grid.Row>
               <Grid.Column width={12}>
-                <p className="text-display">Current total supply: &nbsp; {this.props.totalSupply}</p>
+                <p className="text-display">Current total supply: &nbsp; 
+                  {
+                    web3.utils.fromWei(this.props.totalSupply, 'mwei').toString()
+                  }
+                </p>
               </Grid.Column>
               <Grid.Column width={4}>
                 {
@@ -207,6 +216,10 @@ class Mint extends React.Component {
 
   async handleSetMintWalletSubmit(event) {
     event.preventDefault();
+    if (!this.state.mintWallet) {
+      alert("No input provided!");
+      return;
+    }
     try {
       await this.props.inst.methods.setMintWallet(
         this.state.mintWallet
@@ -224,10 +237,14 @@ class Mint extends React.Component {
     });
   }
 
-  async handleMintSubmit(event) {
+  async handleFundReturnSubmit(event) {
     event.preventDefault();
-    const returnValueStr = web3.utils.toWei(this.state.mintValue, 'mwei').toString();
+    if (!this.state.returnValue) {
+      alert("No input provided!");
+      return;
+    }
     try {
+      const returnValueStr = web3.utils.toWei(this.state.returnValue, 'mwei').toString();
       await this.props.inst.methods.fundReturn(
         returnValueStr
       ).send({
@@ -246,8 +263,12 @@ class Mint extends React.Component {
 
   async handleMintSubmit(event) {
     event.preventDefault();
-    const mintValueStr = web3.utils.toWei(this.state.mintValue, 'mwei').toString();
+    if (!this.state.mintValue) {
+      alert("No input provided!");
+      return;
+    }
     try {
+      const mintValueStr = web3.utils.toWei(this.state.mintValue, 'mwei').toString();
       await this.props.inst.methods.mint(
         mintValueStr
       ).send({

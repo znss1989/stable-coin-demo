@@ -12,7 +12,8 @@ class Recycle extends React.Component {
       recycleWallet: '',
       recycleValue: '',
       burnValue: '',
-      readyToBurn: false
+      readyToBurn: false,
+      nIntervalId: ''
     }
     this.handleRecycleWalletChange = this.handleRecycleWalletChange.bind(this);
     this.handleSetRecycleWalletSubmit = this.handleSetRecycleWalletSubmit.bind(this);
@@ -90,7 +91,11 @@ class Recycle extends React.Component {
             {/* Recycle to mint wallet */}
             <Grid.Row>
               <Grid.Column width={12}>
-                <p className="text-display">Balance allowed to recycle: &nbsp; {this.props.recycleWalletBalance}</p>
+                <p className="text-display">Balance allowed to recycle: &nbsp; 
+                  {
+                    web3.utils.fromWei(this.props.recycleWalletBalance, 'mwei').toString()
+                  }
+                </p>
               </Grid.Column>
               <Grid.Column width={4}>
                 {
@@ -136,7 +141,11 @@ class Recycle extends React.Component {
             {/* Burn */}
             <Grid.Row>
               <Grid.Column width={12}>
-                <p className="text-display">Balance allowed to burn: &nbsp; {this.props.recycleWalletBalance}</p>
+                <p className="text-display">Balance allowed to burn: &nbsp; 
+                  {
+                    web3.utils.fromWei(this.props.recycleWalletBalance, 'mwei').toString()
+                  }
+                </p>
               </Grid.Column>
               <Grid.Column width={4}>
                 {
@@ -179,7 +188,7 @@ class Recycle extends React.Component {
                             <ConfirmPrompt
                               triggerText="Burn"
                               color="red"
-                              handleConfirm={this.handleRecycleSubmit}
+                              handleConfirm={this.handleBurnSubmit}
                             >
                               <p>{this.state.burnValue} of {this.props.symbol} will be burnt.</p>
                             </ConfirmPrompt> :
@@ -221,6 +230,10 @@ class Recycle extends React.Component {
 
   async handleSetRecycleWalletSubmit(event) {
     event.preventDefault();
+    if (!this.state.recycleWallet) {
+      alert("No input provided!");
+      return;
+    }
     try {
       await this.props.inst.methods.setRecycleWallet(
         this.state.recycleWallet
@@ -240,8 +253,12 @@ class Recycle extends React.Component {
 
   async handleRecycleSubmit(event) {
     event.preventDefault();
-    const recycleValueStr = web3.utils.toWei(this.state.recycleValue, 'mwei').toString();
+    if (!this.state.recycleValue) {
+      alert("No input provided!");
+      return;
+    }
     try {
+      const recycleValueStr = web3.utils.toWei(this.state.recycleValue, 'mwei').toString();
       await this.props.inst.methods.recycle(
         recycleValueStr
       ).send({
@@ -253,16 +270,20 @@ class Recycle extends React.Component {
   }
 
   countForBurn() {
-    setInterval(() => {
-      this.setState({
-        readyToBurn: true
-      });
-    }, 7500);
+    this.setState({
+      nIntervalId: setInterval(() => {
+        this.setState({
+          readyToBurn: true
+        });
+      }, 7500)
+    });
   }
 
   resetCountForBurn() {
+    clearInterval(this.state.nIntervalId);
     this.setState({
-      readyToBurn: false
+      readyToBurn: false,
+      nIntervalId: ''
     });
   }
 
@@ -274,8 +295,12 @@ class Recycle extends React.Component {
 
   async handleBurnSubmit(event) {
     event.preventDefault();
-    const burnValueStr = web3.utils.toWei(this.state.burnValue, 'mwei').toString();
+    if (!this.state.burnValue) {
+      alert("No input provided!");
+      return;
+    }
     try {
+      const burnValueStr = web3.utils.toWei(this.state.burnValue, 'mwei').toString();
       await this.props.inst.methods.burn(
         burnValueStr
       ).send({
