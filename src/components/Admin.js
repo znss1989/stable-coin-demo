@@ -82,10 +82,10 @@ class Admin extends React.Component {
           <Table>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell width={3}>Time</Table.HeaderCell>
-                <Table.HeaderCell width={5}>From</Table.HeaderCell>
-                <Table.HeaderCell width={3}>Data</Table.HeaderCell>
-                <Table.HeaderCell width={5}>Hash</Table.HeaderCell>
+                <Table.HeaderCell width={4}>Time</Table.HeaderCell>
+                <Table.HeaderCell width={4}>From</Table.HeaderCell>
+                <Table.HeaderCell width={4}>Data</Table.HeaderCell>
+                <Table.HeaderCell width={4}>Hash</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -120,7 +120,7 @@ class Admin extends React.Component {
     const txList = await this.getTransactions();
     this.setState({
       txList
-    }); 
+    });
   }
 
   async getTransactions() {
@@ -130,17 +130,48 @@ class Admin extends React.Component {
   }
 
   displayTxList(txList) {
-    console.log(txList);
     return txList.map(tx => {
       return (
         <Table.Row key={ tx.hash }>
-          <Table.Cell width={3}>{ tx.timeStamp }</Table.Cell>
-          <Table.Cell width={5}>{ tx.from }</Table.Cell>
-          <Table.Cell width={3}>{ tx.input.slice(0, 12) + "..." }</Table.Cell>
-          <Table.Cell width={5}>{ tx.hash.slice(0,6) + "..." }</Table.Cell>
+          <Table.Cell width={4}>{ this.gsdate(tx.timeStamp + '000', "yyyy-MM-dd HH:mm:ss") }</Table.Cell>
+          <Table.Cell width={4}>
+            <a href={`https://rinkeby.etherscan.io/address/${tx.from}`} target="_blank" rel="noopener noreferrer">
+              {tx.from.slice(0, 10) + "..." + tx.from.slice(tx.from.length - 8)}
+            </a>
+          </Table.Cell>
+          <Table.Cell width={4}>{ tx.input.slice(0, 18) + "..." }</Table.Cell>
+          <Table.Cell width={4}>
+            <a href={`https://rinkeby.etherscan.io/tx/${tx.hash}`} target="_blank" rel="noopener noreferrer">
+              { tx.hash.slice(0, 10) + "..." + tx.hash.slice(tx.hash.length - 8) }
+            </a>
+          </Table.Cell>
         </Table.Row>
       );
     })
+  }
+
+  gsdate(time, format) {
+    if (!time) return "--";
+    var t = new Date(Number(time));
+    var tf = function(i) {
+      return (i < 10 ? "0" : "") + i;
+    };
+    return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function(a) {
+      switch (a) {
+        case "yyyy":
+          return tf(t.getFullYear());
+        case "MM":
+          return tf(t.getMonth() + 1);
+        case "mm":
+          return tf(t.getMinutes());
+        case "dd":
+          return tf(t.getDate());
+        case "HH":
+          return tf(t.getHours());
+        case "ss":
+          return tf(t.getSeconds());
+      }
+    });
   }
 }
 

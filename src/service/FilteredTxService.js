@@ -3,8 +3,8 @@ import web3 from './web3';
 
 const fetchAllTransactions = async (contractAddress) => {
   // https://rinkeby.etherscan.io/apis#accounts
-  const requestUrl = `http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=${contractAddress}&startblock=3653940&endblock=99999999&sort=asc&apikey=6SSPG89WD2PCPMSAB4M2FB43Q6SZNZSCW4`
-  console.log(requestUrl);
+  // sort = asc or desc
+  const requestUrl = `http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=${contractAddress}&startblock=3653940&endblock=99999999&sort=desc&apikey=6SSPG89WD2PCPMSAB4M2FB43Q6SZNZSCW4`
   const response = await fetch(requestUrl);
   if (response.status > 400) throw new Error("Bad response from server");
   return await response.json();
