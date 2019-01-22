@@ -229,6 +229,8 @@ class Recycle extends React.Component {
   }
 
   async handleSetRecycleWalletSubmit(event) {
+    console.log(event);
+    console.log(this);
     event.preventDefault();
     if (!this.state.recycleWallet) {
       alert("No input provided!");

@@ -6,7 +6,8 @@ class ConfirmPrompt extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      disabled: false
     };
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
@@ -38,7 +39,13 @@ class ConfirmPrompt extends React.Component {
         <Modal.Actions>
           <Button
             color={ this.props.color }
-            onClick={ this.props.handleConfirm }
+            onClick={ 
+              (event) => {
+                this.disable();
+                this.props.handleConfirm(event);
+              } 
+            }
+            disabled={ this.state.disabled }
           >
             Confirm
           </Button>
@@ -49,13 +56,21 @@ class ConfirmPrompt extends React.Component {
 
   open() {
     this.setState({
-      open: true
+      open: true,
+      disabled: false
+    });
+  }
+
+  disable() {
+    this.setState({
+      disabled: true
     });
   }
 
   close() {
     this.setState({
-      open: false
+      open: false,
+      disabled: false
     });
   }
 }
