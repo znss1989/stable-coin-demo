@@ -145,6 +145,14 @@ class Issue extends React.Component {
               <h3>Issue</h3>
               <Divider />
               <Grid>
+                <Grid.Row>
+                  <Grid.Column width={3}></Grid.Column>
+                  <Grid.Column width={10}>
+                    <br />
+                    <p className="text-display">Mint wallet balance allowed to issue: &nbsp; { web3.utils.fromWei(this.props.mintWalletBalance, 'mwei') }</p>
+                  </Grid.Column>
+                  <Grid.Column width={3}></Grid.Column>
+                </Grid.Row>
                 {issueSegments}
                 {
                   this.props.currentAccount === this.props.owner &&
