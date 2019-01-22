@@ -25,6 +25,7 @@ const InteractPanel = (props) => {
           inst={ props.inst }
           currentAccount={ props.currentAccount }
           owner={ props.owner }
+          symbol={ props.symbol }
         />
       );
     case 'mint':

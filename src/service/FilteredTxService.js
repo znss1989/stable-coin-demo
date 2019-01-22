@@ -3,7 +3,9 @@ import web3 from './web3';
 
 const fetchAllTransactions = async (contractAddress) => {
   // https://rinkeby.etherscan.io/apis#accounts
-  const response = await fetch(`http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=${contractAddress}&startblock=3653940&endblock=99999999&sort=asc&apikey=6SSPG89WD2PCPMSAB4M2FB43Q6SZNZSCW4`);
+  const requestUrl = `http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=${contractAddress}&startblock=3653940&endblock=99999999&sort=asc&apikey=6SSPG89WD2PCPMSAB4M2FB43Q6SZNZSCW4`
+  console.log(requestUrl);
+  const response = await fetch(requestUrl);
   if (response.status > 400) throw new Error("Bad response from server");
   return await response.json();
 };
@@ -15,7 +17,7 @@ const getMethodId = (methodSignature) => { // e.g. "transfer(address,uint256)"
 const filterTxByMethod = async (txList, methodSignature) => {
   const methodId = getMethodId(methodSignature);
   return txList.filter(tx => {
-    return tx.input.startsWith(methodId);
+    return tx.input.startsWith("0x" + methodId);
   })
 };
 

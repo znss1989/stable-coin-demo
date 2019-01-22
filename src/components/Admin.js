@@ -1,14 +1,17 @@
 import React from 'react';
-import { Segment, Grid, Form, Modal, Button, Divider } from 'semantic-ui-react';
+import { Segment, Grid, Form, Modal, Button, Divider, Table } from 'semantic-ui-react';
 
 import EtherscanLink from './EtherscanLink';
 import ConfirmPrompt from './ConfirmPrompt';
+import tokenAddresses from '../configuration/tokenAddresses.json';
+import FilteredTxService from '../service/FilteredTxService';
 
 class Admin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newOwner: ''
+      newOwner: '',
+      txList: []
     }
     this.handleNewOwnerChange = this.handleNewOwnerChange.bind(this);
     this.handleSetNewOwnerSubmit = this.handleSetNewOwnerSubmit.bind(this);
@@ -73,10 +76,22 @@ class Admin extends React.Component {
                       Set New Owner
                     </Button>
                 }
-
               </Grid.Column>
             </Grid.Row>
           </Grid>
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell width={3}>Time</Table.HeaderCell>
+                <Table.HeaderCell width={5}>From</Table.HeaderCell>
+                <Table.HeaderCell width={3}>Data</Table.HeaderCell>
+                <Table.HeaderCell width={5}>Hash</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              { this.state.txList.length > 0 && this.displayTxList(this.state.txList) }
+            </Table.Body>
+          </Table>
         </Segment>
       </div>
     );
@@ -99,6 +114,33 @@ class Admin extends React.Component {
     } catch(err) {
       alert(err);
     }
+  }
+
+  async componentDidMount() {
+    const txList = await this.getTransactions();
+    this.setState({
+      txList
+    }); 
+  }
+
+  async getTransactions() {
+    const tokenAddress = tokenAddresses[this.props.symbol];
+    const res = await FilteredTxService.fetchAllTransactions(tokenAddress);
+    return res.result;
+  }
+
+  displayTxList(txList) {
+    console.log(txList);
+    return txList.map(tx => {
+      return (
+        <Table.Row key={ tx.hash }>
+          <Table.Cell width={3}>{ tx.timeStamp }</Table.Cell>
+          <Table.Cell width={5}>{ tx.from }</Table.Cell>
+          <Table.Cell width={3}>{ tx.input.slice(0, 12) + "..." }</Table.Cell>
+          <Table.Cell width={5}>{ tx.hash.slice(0,6) + "..." }</Table.Cell>
+        </Table.Row>
+      );
+    })
   }
 }
 
