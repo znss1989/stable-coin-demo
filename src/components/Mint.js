@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Grid, Form, Modal, Button, Message, Divider } from 'semantic-ui-react';
+import { Segment, Grid, Form, Modal, Button, Divider } from 'semantic-ui-react';
 
 import web3 from '../service/web3';
 import EtherscanLink from './EtherscanLink';
