@@ -79,6 +79,8 @@ class Admin extends React.Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
+          <br />
+          <h5>Transaction history</h5>
           <Table>
             <Table.Header>
               <Table.Row>
@@ -92,6 +94,7 @@ class Admin extends React.Component {
               { this.state.txList.length > 0 && this.displayTxList(this.state.txList) }
             </Table.Body>
           </Table>
+          <br />
         </Segment>
       </div>
     );
