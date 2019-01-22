@@ -103,8 +103,8 @@ class Mint extends React.Component {
                           primary
                           fluid
                         >
-                          Fund return
-                    </Button>
+                          Return to Recycle Wallet
+                        </Button>
                       }
                     >
                       <Modal.Header>Fund Return to Recycle Wallet</Modal.Header>
@@ -136,7 +136,7 @@ class Mint extends React.Component {
                       fluid
                       disabled
                     >
-                      Fund return
+                      Return to Recycle Wallet
                     </Button>
                 }
 
