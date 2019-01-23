@@ -11,7 +11,7 @@ class AppDashboard extends React.Component {
     this.state = {
       token: 'ToCNH',
       ready: false,
-      activeItem: 'admin',
+      activeItem: 'info',
       inst: '',
       tokenName: '',
       symbol: '',
@@ -101,10 +101,17 @@ class AppDashboard extends React.Component {
               </Menu.Item>
               <Menu.Item 
                 name='usage' 
-                active={this.state.activeItem === 'usage'} 
-                onClick={this.handleMenuClick}
+                active={ this.state.activeItem === 'usage' } 
+                onClick={ this.handleMenuClick }
               >
                 ERC20 Usage
+              </Menu.Item>
+              <Menu.Item
+                name='logs'
+                active={ this.state.activeItem === 'logs' }
+                onClick={ this.handleMenuClick }
+              >
+                Logs
               </Menu.Item>
             </Menu>
           </Grid.Column>

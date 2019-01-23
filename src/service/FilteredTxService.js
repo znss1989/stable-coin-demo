@@ -23,5 +23,6 @@ const filterTxByMethod = async (txList, methodSignature) => {
 
 export default {
   fetchAllTransactions,
+  getMethodId,
   filterTxByMethod
 };

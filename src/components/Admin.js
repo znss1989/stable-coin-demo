@@ -11,7 +11,6 @@ class Admin extends React.Component {
     super(props);
     this.state = {
       newOwner: '',
-      txList: []
     }
     this.handleNewOwnerChange = this.handleNewOwnerChange.bind(this);
     this.handleSetNewOwnerSubmit = this.handleSetNewOwnerSubmit.bind(this);
@@ -80,21 +79,6 @@ class Admin extends React.Component {
             </Grid.Row>
           </Grid>
           <br />
-          <h5>Transaction history</h5>
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell width={4}>Time</Table.HeaderCell>
-                <Table.HeaderCell width={4}>From</Table.HeaderCell>
-                <Table.HeaderCell width={4}>Data</Table.HeaderCell>
-                <Table.HeaderCell width={4}>Hash</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              { this.state.txList.length > 0 && this.displayTxList(this.state.txList) }
-            </Table.Body>
-          </Table>
-          <br />
         </Segment>
       </div>
     );
@@ -151,30 +135,6 @@ class Admin extends React.Component {
         </Table.Row>
       );
     })
-  }
-
-  gsdate(time, format) {
-    if (!time) return "--";
-    var t = new Date(Number(time));
-    var tf = function(i) {
-      return (i < 10 ? "0" : "") + i;
-    };
-    return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function(a) {
-      switch (a) {
-        case "yyyy":
-          return tf(t.getFullYear());
-        case "MM":
-          return tf(t.getMonth() + 1);
-        case "mm":
-          return tf(t.getMinutes());
-        case "dd":
-          return tf(t.getDate());
-        case "HH":
-          return tf(t.getHours());
-        case "ss":
-          return tf(t.getSeconds());
-      }
-    });
   }
 }
 

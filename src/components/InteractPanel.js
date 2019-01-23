@@ -6,6 +6,7 @@ import Mint from './Mint';
 import Issue from './Issue';
 import Recycle from './Recycle';
 import Usage from './Usage';
+import Logs from './Logs';
 
 const InteractPanel = (props) => {
   switch (props.activeItem) {
@@ -75,6 +76,10 @@ const InteractPanel = (props) => {
           recycleWallet={ props.recycleWallet }
         />
       );
+    case 'logs':
+        return (
+          <Logs />
+        );
     default:
       return (
         <BasicInfo 
