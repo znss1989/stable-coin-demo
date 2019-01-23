@@ -1,10 +1,9 @@
 import React from 'react';
-import { Segment, Grid, Form, Modal, Button, Divider, Table } from 'semantic-ui-react';
+import { Segment, Grid, Form, Modal, Button, Divider } from 'semantic-ui-react';
 
 import EtherscanLink from './EtherscanLink';
 import ConfirmPrompt from './ConfirmPrompt';
-import tokenAddresses from '../configuration/tokenAddresses.json';
-import FilteredTxService from '../service/FilteredTxService';
+
 
 class Admin extends React.Component {
   constructor(props) {
@@ -101,40 +100,6 @@ class Admin extends React.Component {
     } catch(err) {
       alert(err);
     }
-  }
-
-  async componentDidMount() {
-    const txList = await this.getTransactions();
-    this.setState({
-      txList
-    });
-  }
-
-  async getTransactions() {
-    const tokenAddress = tokenAddresses[this.props.symbol];
-    const res = await FilteredTxService.fetchAllTransactions(tokenAddress);
-    return res.result;
-  }
-
-  displayTxList(txList) {
-    return txList.map(tx => {
-      return (
-        <Table.Row key={ tx.hash }>
-          <Table.Cell width={4}>{ this.gsdate(tx.timeStamp + '000', "yyyy-MM-dd HH:mm:ss") }</Table.Cell>
-          <Table.Cell width={4}>
-            <a href={`https://rinkeby.etherscan.io/address/${tx.from}`} target="_blank" rel="noopener noreferrer">
-              {tx.from.slice(0, 10) + "..." + tx.from.slice(tx.from.length - 8)}
-            </a>
-          </Table.Cell>
-          <Table.Cell width={4}>{ tx.input.slice(0, 18) + "..." }</Table.Cell>
-          <Table.Cell width={4}>
-            <a href={`https://rinkeby.etherscan.io/tx/${tx.hash}`} target="_blank" rel="noopener noreferrer">
-              { tx.hash.slice(0, 10) + "..." + tx.hash.slice(tx.hash.length - 8) }
-            </a>
-          </Table.Cell>
-        </Table.Row>
-      );
-    })
   }
 }
 

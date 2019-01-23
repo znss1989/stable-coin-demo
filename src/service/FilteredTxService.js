@@ -21,6 +21,9 @@ const filterTxByMethod = async (txList, methodSignature) => {
   })
 };
 
+const testMethodId = getMethodId("transfer(address,uint256)");
+console.log(testMethodId);
+
 export default {
   fetchAllTransactions,
   getMethodId,

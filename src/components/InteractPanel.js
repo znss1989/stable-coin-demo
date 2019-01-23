@@ -78,7 +78,9 @@ const InteractPanel = (props) => {
       );
     case 'logs':
         return (
-          <Logs />
+          <Logs 
+            symbol={ props.symbol }
+          />
         );
     default:
       return (
