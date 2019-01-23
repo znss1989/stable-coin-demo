@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Table, Tab } from 'semantic-ui-react';
+import { Segment, Table } from 'semantic-ui-react';
 
 import tokenAddresses from '../configuration/tokenAddresses.json';
 import FilteredTxService from '../service/FilteredTxService';
@@ -47,7 +47,6 @@ class Logs extends React.Component {
 
   async getTransactions() {
     const tokenAddress = tokenAddresses[this.props.symbol];
-    console.log(tokenAddress);
     const res = await FilteredTxService.fetchAllTransactions(tokenAddress);
     return res.result;
   }
@@ -57,13 +56,15 @@ class Logs extends React.Component {
       return (
         <Table.Row key={ tx.hash }>
           {/* Type */}
-          <Table.Cell width={2}></Table.Cell>
+          <Table.Cell width={2}>
+            { FilteredTxService.decideMethod(tx.input.slice(0, 10)) }
+          </Table.Cell>
           {/* Time */}
           <Table.Cell width={3}>{ dateFormat(tx.timeStamp + '000', "yyyy-MM-dd HH:mm:ss") }</Table.Cell>
           {/* From */}
           <Table.Cell width={4}>
             <a href={`https://rinkeby.etherscan.io/address/${tx.from}`} target="_blank" rel="noopener noreferrer">
-              {tx.from.slice(0, 10) + "..." + tx.from.slice(tx.from.length - 8)}
+              { tx.from.slice(0, 10) + "..." + tx.from.slice(tx.from.length - 8) }
             </a>
           </Table.Cell>
           {/* Hash */}

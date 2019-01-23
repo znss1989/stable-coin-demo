@@ -21,11 +21,60 @@ const filterTxByMethod = async (txList, methodSignature) => {
   })
 };
 
-const testMethodId = getMethodId("transfer(address,uint256)");
-console.log(testMethodId);
+const mapDataToMethod = {
+  "0xa9059cbb": "transfer",
+  "0x23b872dd": "transferFrom",
+  "0x095ea7b3": "approve",
+  "0xf2fde38b": "transferOwnership",
+  "0x8456cb59": "pause",
+  "0x3f4ba83a": "unpause",
+  "0x37548050": "setMintWallet",
+  "0xa0712d68": "mint",
+  "0x867904b4": "issue",
+  "0xc8189678": "fundReturn",
+  "0xf53dfd1d": "setRecycleWallet",
+  "0x42966c68": "burn",
+  "0xdd1c35bc": "recycle",
+  "0xa4601a64": "addToIssuelist",
+  "0xa77d3c13": "removeFromIssuelist"
+};
+
+const decideMethod = (dataHead) => {
+  const type = mapDataToMethod[dataHead];
+  if (!type) return null;
+  return type;
+}
+
+// const methodSignatures = [
+//   "constructor()",
+//   "transfer(address,uint256)",
+//   "transferFrom(address,address,uint256)",
+//   "approve(address,uint256)",
+//   "transferOwnership(address)",
+//   "pause()",
+//   "unpause()",
+//   "setMintWallet(address)",
+//   "mint(uint256)",
+//   "issue(address,uint256)",
+//   "fundReturn(uint256)",
+//   "setRecycleWallet(address)",
+//   "burn(uint256)",
+//   "recycle(uint256)",
+//   "addToIssuelist(address)",
+//   "removeFromIssuelist(address)"
+// ];
+
+// const printAllMethodIds = (signatures) => {
+//   signatures.forEach((signature) => {
+//     console.log(`${signature}: ${getMethodId(signature)}`);
+//   });
+// };
+
+// printAllMethodIds(methodSignatures);
 
 export default {
   fetchAllTransactions,
   getMethodId,
-  filterTxByMethod
+  filterTxByMethod,
+  decideMethod
 };
